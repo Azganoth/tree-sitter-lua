@@ -289,7 +289,7 @@ module.exports = grammar({
       $.global_variable,
       $._variable_declarator,
       prec(-1, alias($.function_call_statement, $.function_call)),
-      seq('(', $._expression, ')')
+      seq('(', optional(commaSeq($._expression)), ')')
     ),
 
     // Expressions: Function definition
