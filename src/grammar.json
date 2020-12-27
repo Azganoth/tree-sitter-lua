@@ -1210,10 +1210,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "next"
-        },
-        {
-          "type": "SYMBOL",
           "name": "function_definition"
         },
         {
@@ -1261,10 +1257,6 @@
     "self": {
       "type": "STRING",
       "value": "self"
-    },
-    "next": {
-      "type": "STRING",
-      "value": "next"
     },
     "global_variable": {
       "type": "CHOICE",
