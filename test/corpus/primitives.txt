@@ -5,6 +5,18 @@ Literal strings (short/long)
 'a short literal string with single \'quote\''
 "a short literal string with double \"quote\""
 
+-- empty strings
+''
+""
+[[]]
+[==[]==]
+
+-- non-empty strings
+[[
+]]
+[=[
+]=]
+
 [[
 a level 0 long literal string
 with double brackets [=[ a level 1 string completely ignored ]=]
@@ -24,6 +36,16 @@ a level 0 long literal string with comment token inside -> -- disabled comment
 ---
 
 (program
+  (expression (string (string_content)))
+  (expression (string (string_content)))
+
+  (comment)
+  (expression (string))
+  (expression (string))
+  (expression (string))
+  (expression (string))
+
+  (comment)
   (expression (string (string_content)))
   (expression (string (string_content)))
 

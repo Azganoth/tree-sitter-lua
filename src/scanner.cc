@@ -17,7 +17,7 @@ namespace {
     struct StringLiteral {
       int32_t delimiter;
       bool multiline;
-      uint delimiter_level;
+      unsigned delimiter_level;
     };
 
     StringLiteral last_string;
@@ -52,9 +52,9 @@ namespace {
           // Consume first appearance '['
           advance(lexer);
 
-          if (type == COMMENT) has_content = true;
-
           if (lexer->lookahead == '[' || lexer->lookahead == '=') {
+            if (type == COMMENT) has_content = true;
+
             while (lexer->lookahead == '=') {
               // Increment level count
               ++start_level;
@@ -69,6 +69,7 @@ namespace {
               if (type == STRING_START) {
                 lexer->result_symbol = type;
                 last_string.delimiter_level = start_level;
+                last_string.multiline = true;
                 return true;
               }
             }
@@ -76,6 +77,7 @@ namespace {
         }
       }
 
+      // continue consuming if content is multiline (has "[[" or derivatives at the start)
       if ((type == COMMENT && has_content) || type == STRING_CONTENT) {
         end_level = type == COMMENT ? start_level : last_string.delimiter_level;
 
@@ -103,14 +105,17 @@ namespace {
                 } else if (has_content) {
                   return true;
                 } else {
+                  advance(lexer);
+                  lexer->mark_end(lexer);
                   should_end_string = true;
+
                   break;
                 }
               }
             }
           }
 
-          if (lexer->lookahead != 0) {
+          if (!should_end_string && lexer->lookahead != 0) {
             has_content = true;
             advance(lexer);
           }
@@ -119,16 +124,19 @@ namespace {
 
       // it's guaranteed that the next "]...]" string delimiter is valid
       if (type == STRING_END || should_end_string) {
-        // consume first ']'
-        advance(lexer);
-
-        while (lexer->lookahead != ']')
+        // we were trying to parse content, but we ended up at the end of the
+        // string, so we shouldn't advance anymore
+        if (!should_end_string) {
+          // consume first ']'
           advance(lexer);
 
-        // consume last ']'
-        advance(lexer);
+          while (lexer->lookahead != ']')
+            advance(lexer);
 
-        lexer->mark_end(lexer);
+          // consume last ']'
+          advance(lexer);
+        }
+
         lexer->result_symbol = STRING_END;
         return true;
       }
@@ -199,11 +207,8 @@ namespace {
         if (lexer->lookahead == '\'' || lexer->lookahead == '"') {
           lexer->result_symbol = STRING_START;
 
-          last_string = {
-            .delimiter = lexer->lookahead,
-            .multiline = false,
-            .delimiter_level = 0,
-          };
+          last_string.delimiter = lexer->lookahead;
+          last_string.multiline = false;
 
           advance(lexer);
           return true;
@@ -229,7 +234,6 @@ namespace {
 
         else {
           // Try to make a long literal string with double bracket
-          last_string.multiline = true;
           return scan_multiline_content(lexer, STRING_START);
         }
       }
