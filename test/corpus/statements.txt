@@ -59,10 +59,10 @@ end
   (if_statement
     (condition_expression (binary_operation (identifier) (number)))
       (function_call (identifier)
-        (arguments (string)))
-    (elseif (condition_expression (binary_operation (identifier) (string)))
+        (arguments (string (string_content))))
+    (elseif (condition_expression (binary_operation (identifier) (string (string_content))))
       (function_call (field_expression (identifier) (property_identifier))
-        (arguments (string))))
+        (arguments (string (string_content)))))
     (else
       (variable_declaration (variable_declarator (identifier)) (number))
 
@@ -71,7 +71,7 @@ end
           (arguments)))
 
       (function_call (identifier)
-        (arguments (binary_operation (string) (identifier)))))))
+        (arguments (binary_operation (string (string_content)) (identifier)))))))
 
 ============================================
 While statements
@@ -103,7 +103,7 @@ until num == 0
 
 (program
   (repeat_statement
-    (function_call (identifier) (arguments (string)))
+    (function_call (identifier) (arguments (string (string_content))))
     (variable_declaration (variable_declarator (identifier))
       (binary_operation (identifier) (number)))
   (condition_expression (binary_operation (identifier) (number)))))
@@ -141,7 +141,7 @@ end
       (binary_operation (identifier) (identifier))))
 
   (variable_declaration (variable_declarator (identifier))
-    (table (field (string)) (field (string)) (field (number)) (field (string))))
+    (table (field (string (string_content))) (field (string (string_content))) (field (number)) (field (string (string_content)))))
   (for_statement (loop_expression (identifier) (number) (unary_operation (identifier)))
     (function_call (identifier) (arguments (identifier) (identifier)))))
 
@@ -166,10 +166,10 @@ end
 (program
   (for_in_statement (loop_expression (identifier) (identifier) (function_call (identifier) (arguments (identifier))))
     (function_call (identifier) (arguments (identifier) (identifier))))
-    
+
   (for_in_statement (loop_expression (identifier) (identifier) (function_call (identifier) (arguments (identifier))))
     (function_call (identifier) (arguments (identifier) (identifier))))
-  
+
   (for_in_statement (loop_expression (identifier) (identifier) (next) (identifier))
     (function_call (identifier) (arguments (identifier) (identifier)))))
 

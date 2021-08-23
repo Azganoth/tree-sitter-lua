@@ -27,7 +27,7 @@ a.b.f = function(self, test, ...) return 10 end
 
   (variable_declaration (variable_declarator (identifier))
     (function_definition (parameters)
-      (return_statement (string))))
+      (return_statement (string (string_content)))))
 
   (variable_declaration (variable_declarator
     (field_expression (field_expression (identifier) (property_identifier)) (property_identifier)))
@@ -77,12 +77,12 @@ f = function() return 'some string' end
 
 (program
   (local_function (identifier) (parameters)
-    (return_statement (string)))
+    (return_statement (string (string_content))))
 
   (local_variable_declaration (variable_declarator (identifier)))
   (variable_declaration (variable_declarator (identifier))
     (function_definition (parameters)
-      (return_statement (string)))))
+      (return_statement (string (string_content))))))
 
 ============================================
 Function calls

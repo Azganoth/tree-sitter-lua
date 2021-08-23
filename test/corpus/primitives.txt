@@ -24,16 +24,16 @@ a level 0 long literal string with comment token inside -> -- disabled comment
 ---
 
 (program
-  (expression (string))
-  (expression (string))
+  (expression (string (string_content)))
+  (expression (string (string_content)))
 
-  (expression (string))
+  (expression (string (string_content)))
 
-  (expression (string))
+  (expression (string (string_content)))
 
-  (expression (string))
+  (expression (string (string_content)))
 
-  (expression (string)))
+  (expression (string (string_content))))
 
 ============================================
 Numeric constants

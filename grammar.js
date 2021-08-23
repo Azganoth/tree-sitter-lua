@@ -37,7 +37,9 @@ module.exports = grammar({
 
   externals: $ => [
     $.comment,
-    $.string
+    $._string_start,
+    $.string_content,
+    $._string_end,
   ],
 
   rules: {
@@ -362,6 +364,12 @@ module.exports = grammar({
     )),
 
     // Expressions: Primitives
+    string: $ => seq(
+      alias($._string_start, '"'),
+      optional($.string_content),
+      alias($._string_end, '"'),
+    ),
+
     number: $ => {
       const decimal_digits = /[0-9]+/
       const signed_integer = seq(optional(choice('-', '+')), decimal_digits)

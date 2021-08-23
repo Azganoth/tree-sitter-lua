@@ -20,9 +20,9 @@ local games = {
 (program
   (variable_declaration (variable_declarator (identifier))
     (table
-      (field (string)
+      (field (string (string_content))
         (table
-          (field (string) (true))
+          (field (string (string_content)) (true))
           (field (identifier) (false))))))
 
   (local_variable_declaration (variable_declarator (identifier))
@@ -31,10 +31,10 @@ local games = {
         (table
           (field
             (table
-              (field (string))
-              (field (string))
-              (field (string))
-              (field (string)))))))))
+              (field (string (string_content)))
+              (field (string (string_content)))
+              (field (string (string_content)))
+              (field (string (string_content))))))))))
 
 ============================================
 Binary operations

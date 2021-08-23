@@ -3,10 +3,10 @@ Comments
 ============================================
 
 --
--- single-line comment, below an empty single-line comment
-
+-- single-line comment, between 2 empty single-line comment
+--
 --[[
-a level 0 multi-line comment
+a level 0 multi-line comment, below a single-line empty comment
 --]]
 
 --  [[
@@ -24,6 +24,7 @@ a level 2 multi-line comment
 ---
 
 (program
+  (comment)
   (comment)
   (comment)
 
