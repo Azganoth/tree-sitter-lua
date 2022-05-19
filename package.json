@@ -13,30 +13,17 @@
   "license": "MIT",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
-    "install": "prebuild-install || node-gyp rebuild",
-    "dist": "prebuild -r electron -t 3.0.0 -t 4.0.0 -t 4.0.4 -t 5.0.0 -t 6.0.0 --strip && prebuild -t 8.17.0 -t 10.23.0 -t 12.20.0 --strip",
-    "dist:upload": "prebuild --upload-all",
     "test": "tree-sitter test",
     "format": "prettier --write .",
     "lint": "prettier --check ."
   },
   "dependencies": {
-    "nan": "^2.14.2",
-    "prebuild-install": "^6.0.0"
+    "nan": "^2.14.2"
   },
   "devDependencies": {
-    "prebuild": "^10.0.1",
     "tree-sitter-cli": "^0.17.3",
     "prettier": "^2.6.2"
   },
-  "files": [
-    "src",
-    "binding.gyp",
-    "grammar.js",
-    "index.js",
-    "package.json",
-    "package-lock.json"
-  ],
   "tree-sitter": [
     {
       "scope": "source.lua",
