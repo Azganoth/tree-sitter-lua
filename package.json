@@ -2,7 +2,7 @@
   "name": "tree-sitter-lua",
   "version": "1.6.2",
   "description": "Lua grammar for tree-sitter.",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "tree-sitter",
     "parser",
@@ -18,10 +18,10 @@
     "lint": "prettier --check ."
   },
   "dependencies": {
-    "nan": "^2.14.2"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.3",
+    "tree-sitter-cli": "^0.20.6",
     "prettier": "^2.6.2"
   },
   "tree-sitter": [

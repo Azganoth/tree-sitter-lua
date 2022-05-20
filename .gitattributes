@@ -1,11 +1,6 @@
-/.editorconfig linguist-vendored
-/.prettierignore linguist-vendored
-/.prettierrc.toml linguist-vendored
-
-/src/tree_sitter/** linguist-generated
-/src/binding.cc linguist-generated
+/src/tree_sitter/parser.h linguist-generated
 /src/grammar.json linguist-generated
 /src/node-types.json linguist-generated
 /src/parser.c linguist-generated
 
-/index.js linguist-generated
+/bindings/node/** linguist-generated
