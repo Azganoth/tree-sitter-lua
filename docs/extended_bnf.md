@@ -1,11 +1,9 @@
-# The complete syntax of Lua
+# Lua syntax
 
-Here is the complete syntax of Lua in [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form).
+Complete Lua syntax in [extended BNF][extended bnf], as in it’s
+[own manual][lua manual].
 
----
-
-<pre>
-
+```ebnf
 chunk ::=
   block
 
@@ -13,79 +11,81 @@ block ::=
   {stat} [retstat]
 
 stat ::=
-  <b>';'</b> | varlist <b>'='</b> explist | functioncall | label | <b>break</b> | <b>goto</b> Name |
-  <b>do</b> block <b>end</b> |
-  <b>while</b> exp <b>do</b> block <b>end</b> |
-  <b>repeat</b> block <b>until</b> exp |
-  <b>if</b> exp <b>then</b> block {<b>elseif</b> exp <b>then</b> block} [<b>else</b> block] <b>end</b> |
-  <b>for</b> Name <b>'='</b> exp <b>','</b> exp [<b>','</b> exp] <b>do</b> block <b>end</b> |
-  <b>for</b> namelist <b>in</b> explist <b>do</b> block <b>end</b> |
-  <b>function</b> funcname funcbody |
-  <b>local</b> <b>function</b> Name funcbody |
-  <b>local</b> namelist [<b>'='</b> explist]
+  ';' | varlist '=' explist | functioncall | label | break | goto Name |
+  do block end |
+  while exp do block end |
+  repeat block until exp |
+  if exp then block {elseif exp then block} [else block] end |
+  for Name '=' exp ',' exp [',' exp] do block end |
+  for namelist in explist do block end |
+  function funcname funcbody |
+  local function Name funcbody |
+  local namelist ['=' explist]
 
 retstat ::=
-  <b>return</b> [explist] [<b>';'</b>]
+  return [explist] [';']
 
 label ::=
-  <b>'::'</b> Name <b>'::'</b>
+  '::' Name '::'
 
 funcname ::=
-  Name {<b>'.'</b> Name} [<b>':'</b> Name]
+  Name {'.' Name} [':' Name]
 
 varlist ::=
-  var {<b>,</b> var}
+  var {, var}
 
 var ::=
-  Name | prefixexp <b>'['</b> exp <b>']'</b> | prefixexp <b>'.'</b> Name
+  Name | prefixexp '[' exp ']' | prefixexp '.' Name
 
 namelist ::=
-  Name {<b>','</b> Name}
+  Name {',' Name}
 
 explist ::=
-  exp {<b>','</b> exp}
+  exp {',' exp}
 
 exp ::=
-  <b>nil</b> | <b>false</b> | <b>true</b> | Numeral | LiteralString | <b>'...'</b> | functiondef |
+  nil | false | true | Numeral | LiteralString | '...' | functiondef |
   prefixexp | tableconstructor | exp binop exp | unop exp
 
 prefixexp ::=
-  var | functioncall | <b>'('</b> exp <b>')'</b>
+  var | functioncall | '(' exp ')'
 
 functioncall ::=
-  prefixexp args | prefixexp <b>':'</b> Name args
+  prefixexp args | prefixexp ':' Name args
 
 args ::=
-  <b>'('</b> [explist] <b>')'</b> | tableconstructor | LiteralString
+  '(' [explist] ')' | tableconstructor | LiteralString
 
 functiondef ::=
-  <b>function</b> funcbody
+  function funcbody
 
 funcbody ::=
-  <b>'('</b> [parlist] <b>')'</b> block <b>end</b>
+  '(' [parlist] ')' block end
 
 parlist ::=
-  namelist [<b>','</b> <b>'...'</b>] | <b>'...'</b>
+  namelist [',' '...'] | '...'
 
 tableconstructor ::=
-  <b>'{'</b> [ fieldlist ] <b>'}'</b>
+  '{' [ fieldlist ] '}'
 
 fieldlist ::=
   field {fieldsep field} [fieldsep]
 
 field ::=
-  <b>'['</b> exp <b>']'</b> <b>'='</b> exp | Name <b>'='</b> exp | exp
+  '[' exp ']' '=' exp | Name '=' exp | exp
 
 fieldsep ::=
-  <b>','</b> | <b>';'</b>
+  ',' | ';'
 
 binop ::=
-  <b>'+'</b> | <b>'-'</b> | <b>'*'</b> | <b>'/'</b> | <b>'//'</b> | <b>'^'</b> | <b>'%'</b> |
-  <b>'&'</b> | <b>'~'</b> | <b>'|'</b> | <b>'>>'</b> | <b>'<<'</b> | <b>'..'</b> |
-  <b>'<'</b> | <b>'<='</b> | <b>'>'</b> | <b>'>='</b> | <b>'=='</b> | <b>'~='</b> |
-  <b>not</b> | <b>or</b>
+  '+' | '-' | '*' | '/' | '//' | '^' | '%' |
+  '&' | '~' | '|' | '>>' | '<<' | '..' |
+  '<' | '<=' | '>' | '>=' | '==' | '~=' |
+  not | or
 
 unop ::=
-   <b>'-'</b> | <b>not</b> | <b>'#'</b> | <b>'~'</b>
+   '-' | not | '#' | '~'
+```
 
-</pre>
+[extended bnf]: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
+[lua manual]: http://www.lua.org/manual/5.3/manual.html#9
