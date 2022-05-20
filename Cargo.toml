@@ -1,12 +1,16 @@
 [package]
 name = "tree-sitter-lua"
-description = "lua grammar for the tree-sitter parsing library"
 version = "0.0.1"
+description = "Lua grammar for the tree-sitter parsing library"
+authors = [
+    "Ademir José Ferreira Júnior <ademirj.ferreirajunior@gmail.com>",
+]
+license = "MIT"
+readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "lua"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-lua"
+repository = "https://github.com/Azganoth/tree-sitter-lua"
 edition = "2018"
-license = "MIT"
 
 build = "bindings/rust/build.rs"
 include = [

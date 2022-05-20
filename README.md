@@ -4,6 +4,8 @@
 
 Lua grammar for tree-sitter.
 
+For Rust usage see the [crate README][rust readme].
+
 ## References
 
 - [Lua Documentation](https://www.lua.org/docs.html)
@@ -11,4 +13,7 @@ Lua grammar for tree-sitter.
 
 ## License
 
-This package is under a [MIT license](https://github.com/Azganoth/tree-sitter-lua/blob/master/LICENSE.md).
+This package is licensed under the [MIT License][license].
+
+[rust readme]: /bindings/rust/README.md
+[license]: /LICENSE.txt
