@@ -8,12 +8,14 @@ For Rust usage see the [crate README][rust readme].
 
 ## References
 
-- [Lua Documentation](https://www.lua.org/docs.html)
-- [Lua 5.3 Reference Manual](https://www.lua.org/manual/5.3/)
+- [Tree-sitter docs][tree-sitter docs]
+- [Lua docs][lua docs]
 
 ## License
 
 This package is licensed under the [MIT License][license].
 
 [rust readme]: /bindings/rust/README.md
+[tree-sitter docs]: http://tree-sitter.github.io/tree-sitter/
+[lua docs]: https://www.lua.org/docs.html
 [license]: /LICENSE.txt
