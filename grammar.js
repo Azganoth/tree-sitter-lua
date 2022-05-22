@@ -336,6 +336,13 @@ module.exports = grammar({
       prec.left(PREC.UNARY, seq(choice("not", "#", "-", "~"), $._expression)),
 
     // Expressions: Primitives
+    string: ($) =>
+      choice(
+        seq("'", optional($._short_sq_string_content), "'"),
+        seq('"', optional($._short_dq_string_content), '"'),
+        $._long_string,
+      ),
+
     number: () => {
       const decimal_digits = /[0-9]+/;
       const signed_integer = seq(optional(choice("-", "+")), decimal_digits);
@@ -376,11 +383,19 @@ module.exports = grammar({
 
     // Identifier
     identifier: () => /[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    // comments
+    comment: ($) => seq("--", choice(/.*/, $._long_comment)),
   },
 
-  extras: ($) => [$.comment, /[\s\n]/],
+  extras: ($) => [/\s/, $.comment],
 
-  externals: ($) => [$.comment, $.string],
+  externals: ($) => [
+    $._short_sq_string_content,
+    $._short_dq_string_content,
+    $._long_string,
+    $._long_comment,
+  ],
 
   conflicts: ($) => [
     [$._prefix],

@@ -31,42 +31,75 @@ Numeric constants
   (expression (number))
   (expression (number)))
 
-============================================
-Literal strings (short/long)
-============================================
+================================================================================
+Short strings
+================================================================================
 
-'a short literal string with single \'quote\''
-"a short literal string with double \"quote\""
-
-[[
-a level 0 long literal string
-with double brackets [=[ a level 1 string completely ignored ]=]
-]]
-
-[==[
-a level 2 long literal string
-with double brackets [[ a level 0 string completely ignored ]]
-]==]
-
-"a string with comment token inside -> -- disabled comment"
-
-[[
-a level 0 long literal string with comment token inside -> -- disabled comment
-]]
+print('')
+print("")
+print('a single-quoted (\') string')
+print("a double-quoted (\") string")
+print("a string with -- an undetected comment")
 
 ---
 
 (program
-  (expression (string))
-  (expression (string))
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (function_call
+    (identifier)
+    (arguments
+      (string))))
 
-  (expression (string))
+================================================================================
+Long strings
+================================================================================
 
-  (expression (string))
+print([[
+a string
+]])
 
-  (expression (string))
+print([[
+a string with
+-- an undetected comment
+]])
 
-  (expression (string)))
+print([==[
+a string with
+[[ an undetected string ]]
+]==])
+
+---
+
+(program
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+
+  (function_call
+    (identifier)
+    (arguments
+      (string))))
 
 ============================================
 Binary operations

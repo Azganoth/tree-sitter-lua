@@ -150,6 +150,11 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "condition_expression",
     "named": true,
     "fields": {},
@@ -1746,6 +1751,11 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "table",
     "named": true,
     "fields": {},
@@ -2069,6 +2079,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -2078,6 +2092,10 @@
   },
   {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -2102,6 +2120,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "--",
     "named": false
   },
   {
@@ -2190,10 +2212,6 @@
   },
   {
     "type": "break_statement",
-    "named": true
-  },
-  {
-    "type": "comment",
     "named": true
   },
   {
@@ -2286,10 +2304,6 @@
   },
   {
     "type": "spread",
-    "named": true
-  },
-  {
-    "type": "string",
     "named": true
   },
   {

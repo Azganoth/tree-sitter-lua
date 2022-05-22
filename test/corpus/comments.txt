@@ -1,36 +1,100 @@
-============================================
-Comments
-============================================
+================================================================================
+Short comments
+================================================================================
 
+-- a comment
 --
--- single-line comment, below an empty single-line comment
-
---[[
-a level 0 multi-line comment
---]]
-
---  [[
-a level 0 multi-line comment
---]]
-
---[==[
-a level 2 multi-line comment
-]==]
-
---  [==[
-a level 2 multi-line comment
-  ]==]
+-- a comment, right after an empty comment
 
 ---
 
 (program
   (comment)
   (comment)
+  (comment))
 
+================================================================================
+Long comments
+================================================================================
+
+--[[
+print("a comment")
+]]
+
+--[[
+print("a comment")
+--]]
+
+-- [[
+print("a string between two comments")
+--]]
+
+-- [[
+print([[
+a string between two comments
+]])
+--]]
+
+---
+
+(program
   (comment)
 
   (comment)
 
   (comment)
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (comment)
 
+  (comment)
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (comment))
+
+================================================================================
+Long comments (with levels)
+================================================================================
+
+--[==[
+print("a comment")
+]==]
+
+--[===[
+print("a comment")
+--]===]
+
+-- [==[
+print("a string between two comments")
+--]==]
+
+-- [=[
+print([[
+a string between two comments
+]])
+--]=]
+
+---
+
+(program
+  (comment)
+
+  (comment)
+
+  (comment)
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
+  (comment)
+
+  (comment)
+  (function_call
+    (identifier)
+    (arguments
+      (string)))
   (comment))
