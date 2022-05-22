@@ -1,0 +1,86 @@
+{
+  "New rule": {
+    "scope": "javascript",
+    "prefix": "cr",
+    "body": ["${1:name}: (${2:$}) => ${3:\"$4\"},"],
+    "description": "Generates a new rule structure"
+  },
+  "Sequence rule": {
+    "scope": "javascript",
+    "prefix": "seq",
+    "body": ["seq(${1:rule})$0"],
+    "description": "Matches a sequence of rules"
+  },
+  "Choice rule": {
+    "scope": "javascript",
+    "prefix": "cho",
+    "body": ["choice(${1:rule})$0"],
+    "description": "Matches one of a set of rules"
+  },
+  "Repeat optional rule": {
+    "scope": "javascript",
+    "prefix": "rep",
+    "body": ["repeat(${1:rule})$0"],
+    "description": "Matches zero or more occurrences of a rule"
+  },
+  "Repeat rule": {
+    "scope": "javascript",
+    "prefix": "rep1",
+    "body": ["repeat1(${1:rule})$0"],
+    "description": "Matches one or more occurrences of a rule"
+  },
+  "Optional rule": {
+    "scope": "javascript",
+    "prefix": "opt",
+    "body": ["optional(${1:rule})$0"],
+    "description": "Matches zero or one occurrences of a rule"
+  },
+  "Alias rule": {
+    "scope": "javascript",
+    "prefix": "ali",
+    "body": ["alias(${1:rule}, ${2:\"$3\"})$0"],
+    "description": "Gives an alternative name to a rule"
+  },
+  "Field name rule": {
+    "scope": "javascript",
+    "prefix": "fi",
+    "body": ["field(${2:\"$3\"}, ${1:rule})$0"],
+    "description": "Names a field within a rule"
+  },
+  "Token rule": {
+    "scope": "javascript",
+    "prefix": "tok",
+    "body": ["token(${1:rule})$0"],
+    "description": "Produces a single token for a rule"
+  },
+  "Immediate token rule": {
+    "scope": "javascript",
+    "prefix": "toki",
+    "body": ["token.immediate(${1:rule})$0"],
+    "description": "Produces a single token for a rule"
+  },
+  "Precedence rule": {
+    "scope": "javascript",
+    "prefix": "prec",
+    "body": ["prec(${1:priority}, ${2:rule})$0"],
+    "description": "Gives a numerical precedence for a rule for LR(1) Conflicts"
+  },
+  "Left precedence rule": {
+    "scope": "javascript",
+    "prefix": "precl",
+    "body": ["prec.left(${2:${1:priority}, }${3:rule})$0"],
+    "description": "Gives a left precedence for a rule for LR(1) Conflicts, with an optional numerical precedence"
+  },
+  "Right precedence rule": {
+    "scope": "javascript",
+    "prefix": "precr",
+    "body": ["prec.right(${2:${1:priority}, }${3:rule})$0"],
+    "description": "Gives a right precedence for a rule for LR(1) Conflicts, with an optional numerical precedence"
+  },
+  "Dynamic precedence rule": {
+    "scope": "javascript",
+    "prefix": "precd",
+    "body": ["prec.dynamic(${1:priority}, ${2:rule})$0"],
+    "description": "Gives a dynamic numerical precedence for a rule for LR(1) Conflicts"
+  }
+}
