@@ -1,90 +1,117 @@
 # Lua syntax
 
-Complete Lua syntax in [extended BNF][extended bnf], as in it’s
-[own manual][lua manual].
+Complete Lua syntax in [extended BNF][extended bnf], adapted from it’s
+[manual][lua manual].
 
 ```ebnf
-chunk ::=
-  block
+chunk = [block];
 
-block ::=
-  {stat} [retstat]
+block = return_statement | statement {statement} [return_statement];
 
-stat ::=
-  ';' | varlist '=' explist | functioncall | label | break | goto Name |
-  do block end |
-  while exp do block end |
-  repeat block until exp |
-  if exp then block {elseif exp then block} [else block] end |
-  for Name '=' exp ',' exp [',' exp] do block end |
-  for namelist in explist do block end |
-  function funcname funcbody |
-  local function Name funcbody |
-  local namelist ['=' explist]
+(* statements *)
+return_statement = "return" [expression_list] [empty_statement];
 
-retstat ::=
-  return [explist] [';']
+statement = do_statement | if_statement | for_numeric_statement
+  | for_generic_statement | while_statement | repeat_statement | break_statement
+  | label_statement | goto_statement | variable_assignment
+  | scoped_variable_declaration | function_declaration | scoped_function_declaration
+  | function_call | empty_statement;
 
-label ::=
-  '::' Name '::'
+empty_statement = ";";
 
-funcname ::=
-  Name {'.' Name} [':' Name]
+scoped_function_declaration = "local" "function" identifier function_body;
 
-varlist ::=
-  var {, var}
+function_declaration = "function" function_identifier function_body;
+function_identifier = identifier {"." identifier} [":" identifier];
 
-var ::=
-  Name | prefixexp '[' exp ']' | prefixexp '.' Name
+scoped_variable_declaration = "local" identifier_list ["=" expression_list];
 
-namelist ::=
-  Name {',' Name}
+variable_assignment = variable_list "=" expression_list;
+variable_list = variable {"," variable};
 
-explist ::=
-  exp {',' exp}
+goto_statement = "goto" identifier;
+label_statement = "::" identifier "::";
 
-exp ::=
-  nil | false | true | Numeral | LiteralString | '...' | functiondef |
-  prefixexp | tableconstructor | exp binop exp | unop exp
+break_statement = "break";
+repeat_statement = "repeat" [block] "until" expression;
+while_statement = "while" expression "do" [block] "end";
+for_generic_statement = "for" identifier_list "in" expression_list
+  "do" [block] "end";
+for_numeric_statement = "for" identifier "=" expression "," expression ["," expression]
+  "do" [block] "end";
 
-prefixexp ::=
-  var | functioncall | '(' exp ')'
+if_statement = "if" expression "then" [block] {"elseif" expression "then" [block]}
+  ["else" [block]] "end";
 
-functioncall ::=
-  prefixexp args | prefixexp ':' Name args
+do_statement = "do" [block] "end";
 
-args ::=
-  '(' [explist] ')' | tableconstructor | LiteralString
+(* expressions *)
+expression = nil | boolean | number | string | unary_expression
+  | binary_expression | table | vararg_expression | function_definition
+  | prefix_expression;
 
-functiondef ::=
-  function funcbody
+prefix_expression = variable | function_call | "(" expression ")";
+variable = identifier | prefix_expression "." identifier
+  | prefix_expression "[" expression "]";
+function_call = prefix_expression [":" identifier] argument_list;
+argument_list = string | table | "(" [expression_list] ")";
+expression_list = expression {"," expression};
 
-funcbody ::=
-  '(' [parlist] ')' block end
+function_definition = "function" function_body;
+function_body = "(" [parameter_list] ")" [block] "end";
+parameter_list = vararg_expression | identifier_list ["," vararg_expression];
+identifier_list = identifier {"," identifier};
 
-parlist ::=
-  namelist [',' '...'] | '...'
+vararg_expression = "...";
 
-tableconstructor ::=
-  '{' [ fieldlist ] '}'
+table = "{" [field_list] "}";
+field_list = field {field_separator field} [field_separator];
+field = expression | identifier "=" expression | "[" expression "]" "=" expression;
+field_separator = "," | ";";
 
-fieldlist ::=
-  field {fieldsep field} [fieldsep]
+binary_expression = expression binary_operator expression;
+binary_operator = "or" | "and" | "==" | "~=" | "<" | ">" | "<=" | ">=" | "|"
+  | "~" | "&" | "<<" | ">>" | ".." | "+" | "-" | "*" | "/" | "//" | "%" | "^";
 
-field ::=
-  '[' exp ']' '=' exp | Name '=' exp | exp
+unary_expression = unary_operator expression;
+unary_operator = "not" | "#" | "-" | "~";
 
-fieldsep ::=
-  ',' | ';'
+string = "'" {, inline_character - "'"}, "'"
+  | '"' {, inline_character - '"'}, '"'
+  | multiline_start {, character}, multiline_end;
+inline_character = ? any character except a newline ?;
+character = ? any character ?;
 
-binop ::=
-  '+' | '-' | '*' | '/' | '//' | '^' | '%' |
-  '&' | '~' | '|' | '>>' | '<<' | '..' |
-  '<' | '<=' | '>' | '>=' | '==' | '~=' |
-  not | or
+number = decimal | hexadecimal;
 
-unop ::=
-   '-' | not | '#' | '~'
+hexadecimal = ["-"] ("0x" | "0X"), hexadecimal_numeral [, ("p" | "P"), exponent];
+hexadecimal_numeral = hexadecimal_digit {, hexadecimal_digit}
+  | hexadecimal_digit {, hexadecimal_digit}, "." {, hexadecimal_digit}
+  | {hexadecimal_digit ,} ".", hexadecimal_digit {, hexadecimal_digit};
+hexadecimal_digit = ? hexadecimal numeric character ?;
+
+decimal = ["-"] decimal_numeral [, ("e" | "E"), exponent];
+decimal_numeral = decimal_digit {, decimal_digit}
+  | decimal_digit {, decimal_digit}, "." {, decimal_digit}
+  | {decimal_digit ,} ".", decimal_digit {, decimal_digit};
+decimal_digit = ? decimal numeric character ?;
+
+exponent = [("+" | "-") ,] decimal_digit {, decimal_digit};
+
+boolean = "false" | "true";
+
+nil = "nil";
+
+identifier = (letter | "_") {, letter | decimal_digit | "_"};
+letter = ? case insensitive alphabetic character ?;
+
+(* extras *)
+comment = "--" {, inline_character}
+  | "--", multiline_start {, character}, multiline_end;
+
+(* "start" and "end" must have the same number of equal signs ("=") *)
+multiline_start = "[" {, "="}, "[";
+multiline_end = "]" {, "="}, "]";
 ```
 
 [extended bnf]: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
