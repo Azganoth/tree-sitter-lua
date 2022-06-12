@@ -40,6 +40,8 @@ module.exports = grammar({
   rules: {
     chunk: ($) => optional($.block),
 
+    shebang: ($) => /#!.*/,
+
     block: ($) =>
       choice(
         $.return_statement,
