@@ -11,16 +11,16 @@ return (undefined_var == nil) == true and true or false
     (return_statement
       (expression_list
         (binary_expression
-          (binary_expression
-            (binary_expression
-              (parenthesized_expression
+          left: (binary_expression
+            left: (binary_expression
+              left: (parenthesized_expression
                 (binary_expression
-                  (variable
-                    (identifier))
-                  (nil)))
-              (boolean))
-            (boolean))
-          (boolean))))))
+                  left: (variable
+                    name: (identifier))
+                  right: (nil)))
+              right: (boolean))
+            right: (boolean))
+          right: (boolean))))))
 
 ================================================================================
 Numbers
@@ -136,12 +136,12 @@ return not (-#{} < 0)
     (return_statement
       (expression_list
         (unary_expression
-          (parenthesized_expression
+          argument: (parenthesized_expression
             (binary_expression
-              (unary_expression
-                (unary_expression
-                  (table)))
-              (number))))))))
+              left: (unary_expression
+                argument: (unary_expression
+                  argument: (table)))
+              right: (number))))))))
 
 ================================================================================
 Binary expressions
@@ -160,29 +160,29 @@ true and 1 or 0
     (return_statement
       (expression_list
         (binary_expression
-          (parenthesized_expression
+          left: (parenthesized_expression
             (binary_expression
-              (binary_expression
-                (number)
-                (number))
-              (binary_expression
-                (number)
-                (number))))
-          (number))
+              left: (binary_expression
+                left: (number)
+                right: (number))
+              right: (binary_expression
+                left: (number)
+                right: (number))))
+          right: (number))
         (binary_expression
-          (variable
-            (variable
-              (identifier))
-            (identifier))
-          (parenthesized_expression
+          left: (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier))
+          right: (parenthesized_expression
             (binary_expression
-              (number)
-              (number))))
+              left: (number)
+              right: (number))))
         (binary_expression
-          (binary_expression
-            (boolean)
-            (number))
-          (number))))))
+          left: (binary_expression
+            left: (boolean)
+            right: (number))
+          right: (number))))))
 
 ================================================================================
 Tables
@@ -208,36 +208,36 @@ return {
         (table
           (field_list
             (field
-              (variable
+              key: (variable
+                table: (variable
+                  name: (identifier))
+                field: (identifier))
+              value: (variable
+                name: (identifier)))
+            (field
+              value: (string))
+            (field
+              value: (string))
+            (field
+              key: (identifier)
+              value: (number))
+            (field
+              value: (function_call
                 (variable
-                  (identifier))
-                (identifier))
-              (variable
-                (identifier)))
-            (field
-              (string))
-            (field
-              (string))
-            (field
-              (identifier)
-              (number))
-            (field
-              (function_call
-                (variable
-                  (variable
-                    (identifier))
-                  (identifier))
-                (argument_list
+                  table: (variable
+                    name: (identifier))
+                  field: (identifier))
+                arguments: (argument_list
                   (expression_list
                     (variable
-                      (identifier))))))
+                      name: (identifier))))))
             (field
-              (number)
-              (number))
+              key: (number)
+              value: (number))
             (field
-              (table))
+              value: (table))
             (field
-              (number))))))))
+              value: (number))))))))
 
 ================================================================================
 Function definitions
@@ -263,23 +263,23 @@ end
       (expression_list
         (function_definition)
         (function_definition
-          (parameter_list
+          parameters: (parameter_list
             (vararg_expression))
-          (block
+          body: (block
             (return_statement
               (expression_list
                 (vararg_expression)))))
         (function_definition
-          (parameter_list
-            (identifier)
+          parameters: (parameter_list
+            name: (identifier)
             (vararg_expression))
-          (block
+          body: (block
             (return_statement
               (expression_list
                 (function_call
                   (variable
-                    (identifier))
-                  (argument_list
+                    name: (identifier))
+                  arguments: (argument_list
                     (expression_list
                       (vararg_expression))))))))))))
 
@@ -300,17 +300,17 @@ math["pi"]
     (return_statement
       (expression_list
         (variable
-          (variable
-            (identifier))
-          (number))
+          table: (variable
+            name: (identifier))
+          field: (number))
         (variable
-          (variable
-            (identifier))
-          (identifier))
+          table: (variable
+            name: (identifier))
+          field: (identifier))
         (variable
-          (variable
-            (identifier))
-          (string))))))
+          table: (variable
+            name: (identifier))
+          field: (string))))))
 
 ================================================================================
 Function calls
@@ -329,11 +329,11 @@ string.char()
       (expression_list
         (function_call
           (variable
-            (identifier))
-          (argument_list))
+            name: (identifier))
+          arguments: (argument_list))
         (function_call
           (variable
-            (variable
-              (identifier))
-            (identifier))
-          (argument_list))))))
+            table: (variable
+              name: (identifier))
+            field: (identifier))
+          arguments: (argument_list))))))
