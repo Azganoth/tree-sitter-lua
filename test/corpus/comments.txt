@@ -2,13 +2,24 @@
 Short comments
 ================================================================================
 
--- a comment
 --
--- a comment, right after an empty comment
+-- a comment
+
+-- [[
+-- [=[
+--[
+--[==
+--[ [
+--[ ===[ ]==== ]
 
 ---
 
-(program
+(chunk
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
   (comment)
   (comment)
   (comment))
@@ -18,83 +29,30 @@ Long comments
 ================================================================================
 
 --[[
-print("a comment")
+a comment
 ]]
 
 --[[
-print("a comment")
+a comment
 --]]
 
--- [[
-print("a string between two comments")
---]]
-
--- [[
-print([[
-a string between two comments
-]])
---]]
-
----
-
-(program
-  (comment)
-
-  (comment)
-
-  (comment)
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (comment)
-
-  (comment)
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (comment))
-
-================================================================================
-Long comments (with levels)
-================================================================================
+--[=[
+a comment
+] =]]=]
 
 --[==[
-print("a comment")
-]==]
+a comment
+]= ]]==]
 
---[===[
-print("a comment")
---]===]
-
--- [==[
-print("a string between two comments")
---]==]
-
--- [=[
-print([[
-a string between two comments
-]])
---]=]
+--[====[
+a comment
+] ====]]====]
 
 ---
 
-(program
+(chunk
   (comment)
-
   (comment)
-
   (comment)
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
   (comment)
-
-  (comment)
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
   (comment))

@@ -1,408 +1,291 @@
 const PREC = {
-  COMMA: -1,
-  PRIORITY: 1,
-
-  OR: 1, // or
-  AND: 2, // and
-  COMPARE: 3, // < <= == ~= >= >
-  BIT_OR: 4, // |
-  BIT_NOT: 5, // ~
-  BIT_AND: 6, // &
-  SHIFT: 7, // << >>
-  CONCAT: 8, // ..
-  PLUS: 9, // + -
-  MULTI: 10, // * / // %
-  UNARY: 11, // not # - ~
-  POWER: 12, // ^
+  OR: 1, // "or"
+  AND: 2, // "and"
+  COMPARATIVE: 3, // "==" "~=" "<" ">" "<=" ">="
+  BIT_OR: 4, // "|"
+  BIT_NOT: 5, // "~"
+  BIT_AND: 6, // "&"
+  BIT_SHIFT: 7, // "<<" ">>"
+  CONCATENATION: 8, // ".."
+  ADDITIVE: 9, // "+" "-"
+  MULTIPLICATIVE: 10, // "*" "/" "//" "%"
+  UNARY: 11, // "not" "#" "-" "~"
+  POWER: 12, // "^"
 };
 
-const commaSeq = (rule) => seq(rule, repeat(seq(",", rule)));
+const WHITESPACE = /\s/;
+const IDENTIFIER = /[a-zA-Z_][0-9a-zA-Z_]*/;
+const DECIMAL_DIGIT = /[0-9]/;
+const HEXADECIMAL_DIGIT = /[0-9a-fA-F]/;
+
+const _numeral = (digit) =>
+  choice(
+    repeat1(digit),
+    seq(repeat1(digit), ".", repeat(digit)),
+    seq(repeat(digit), ".", repeat1(digit)),
+  );
+
+const _exponent_part = (...delimiters) =>
+  seq(
+    choice(...delimiters),
+    optional(choice("+", "-")),
+    repeat1(DECIMAL_DIGIT),
+  );
+
+const _list = (rule, separator) => seq(rule, repeat(seq(separator, rule)));
 
 module.exports = grammar({
   name: "lua",
 
   rules: {
-    program: ($) => seq(repeat($._statement), optional($.return_statement)),
+    chunk: ($) => optional($.block),
 
-    // Return statement
-    return_statement: ($) =>
-      seq(
-        "return",
-        optional(commaSeq($._expression)),
-        optional($._empty_statement),
+    block: ($) =>
+      choice(
+        $.return_statement,
+        seq(repeat1($._statement), optional($.return_statement)),
       ),
 
-    // Statements
+    // statements
+    return_statement: ($) =>
+      seq("return", optional($.expression_list), optional($.empty_statement)),
+
     _statement: ($) =>
       choice(
-        alias($._expression, $.expression),
-
-        $.variable_declaration,
-        $.local_variable_declaration,
-
         $.do_statement,
         $.if_statement,
+        $.for_numeric_statement,
+        $.for_generic_statement,
         $.while_statement,
         $.repeat_statement,
-        $.for_statement,
-        $.for_in_statement,
-
-        $.goto_statement,
         $.break_statement,
-
         $.label_statement,
-        $._empty_statement,
-
-        alias($.function_statement, $.function),
-        alias($.local_function_statement, $.local_function),
-        alias($.function_call_statement, $.function_call),
+        $.goto_statement,
+        $.variable_assignment,
+        $.scoped_variable_declaration,
+        $.function_definition_statement,
+        $.scoped_function_definition_statement,
+        // conflict: $._statement and $._prefix_expression
+        prec(1, $.function_call),
+        $.empty_statement,
       ),
 
-    // Statements: Variable eclarations
-    variable_declaration: ($) =>
-      seq(
-        commaSeq(alias($._variable_declarator, $.variable_declarator)),
-        "=",
-        commaSeq($._expression),
-      ),
+    empty_statement: () => ";",
 
-    local_variable_declaration: ($) =>
+    scoped_function_definition_statement: ($) =>
+      seq("local", "function", $.identifier, $._function_body),
+
+    function_definition_statement: ($) =>
+      seq("function", $.function_identifier, $._function_body),
+    function_identifier: ($) =>
+      seq(_list($.identifier, "."), optional(seq(":", $.identifier))),
+
+    scoped_variable_declaration: ($) =>
       seq(
         "local",
-        alias($._local_variable_declarator, $.variable_declarator),
-        optional(seq("=", commaSeq($._expression))),
+        alias($.scoped_variable_list, $.variable_list),
+        optional(seq("=", $.expression_list)),
       ),
+    scoped_variable_list: ($) => _list($.scoped_variable, ","),
+    scoped_variable: ($) => seq($.identifier, optional($.attribute)),
+    attribute: ($) => seq("<", $.identifier, ">"),
 
-    _variable_declarator: ($) =>
-      choice(
-        $.identifier,
-        seq($._prefix, "[", $._expression, "]"),
-        $.field_expression,
-      ),
+    variable_assignment: ($) => seq($.variable_list, "=", $.expression_list),
+    variable_list: ($) => _list($.variable, ","),
 
-    field_expression: ($) =>
-      seq($._prefix, ".", alias($.identifier, $.property_identifier)),
+    goto_statement: ($) => seq("goto", $.identifier),
+    label_statement: ($) => seq("::", $.identifier, "::"),
 
-    _local_variable_declarator: ($) => commaSeq($.identifier),
-
-    // Statements: Control statements
-    do_statement: ($) =>
-      seq("do", repeat($._statement), optional($.return_statement), "end"),
-
-    if_statement: ($) =>
-      seq(
-        "if",
-        alias($._expression, $.condition_expression),
-        "then",
-        repeat($._statement),
-        optional($.return_statement),
-        repeat($.elseif),
-        optional($.else),
-        "end",
-      ),
-
-    elseif: ($) =>
-      seq(
-        "elseif",
-        alias($._expression, $.condition_expression),
-        "then",
-        repeat($._statement),
-        optional($.return_statement),
-      ),
-
-    else: ($) =>
-      seq("else", repeat($._statement), optional($.return_statement)),
-
-    while_statement: ($) =>
-      seq(
-        "while",
-        alias($._expression, $.condition_expression),
-        "do",
-        repeat($._statement),
-        optional($.return_statement),
-        "end",
-      ),
+    break_statement: () => "break",
 
     repeat_statement: ($) =>
-      seq(
-        "repeat",
-        repeat($._statement),
-        optional($.return_statement),
-        "until",
-        alias($._expression, $.condition_expression),
-      ),
+      seq("repeat", optional($.block), "until", $._expression),
 
-    // Statements: For statements
-    for_statement: ($) =>
+    while_statement: ($) =>
+      seq("while", $._expression, "do", optional($.block), "end"),
+
+    for_generic_statement: ($) =>
       seq(
         "for",
-        alias($._loop_expression, $.loop_expression),
+        alias($.identifier_list, $.variable_list),
+        "in",
+        $.expression_list,
         "do",
-        repeat($._statement),
-        optional($.return_statement),
+        optional($.block),
         "end",
       ),
+    identifier_list: ($) => _list($.identifier, ","),
 
-    for_in_statement: ($) =>
+    for_numeric_statement: ($) =>
       seq(
         "for",
-        alias($._in_loop_expression, $.loop_expression),
-        "do",
-        repeat($._statement),
-        optional($.return_statement),
-        "end",
-      ),
-
-    _loop_expression: ($) =>
-      seq(
         $.identifier,
         "=",
         $._expression,
         ",",
         $._expression,
         optional(seq(",", $._expression)),
-      ),
-
-    _in_loop_expression: ($) =>
-      seq(commaSeq($.identifier), "in", commaSeq($._expression)),
-
-    // Statements: Simple statements
-    goto_statement: ($) => seq("goto", $.identifier),
-
-    break_statement: () => "break",
-
-    // Statements: Void statements
-    label_statement: ($) => seq("::", $.identifier, "::"),
-
-    _empty_statement: () => ";",
-
-    // Statements: Function statements
-    function_statement: ($) =>
-      seq("function", $.function_name, $._function_body),
-
-    local_function_statement: ($) =>
-      seq("local", "function", $.identifier, $._function_body),
-
-    function_call_statement: ($) =>
-      prec.dynamic(
-        PREC.PRIORITY,
-        choice(
-          seq($._prefix, $.arguments),
-          seq($._prefix, ":", alias($.identifier, $.method), $.arguments),
-        ),
-      ),
-
-    arguments: ($) =>
-      choice(
-        seq("(", optional(commaSeq($._expression)), ")"),
-        $.table,
-        $.string,
-      ),
-
-    function_name: ($) =>
-      seq(
-        choice($.identifier, $.function_name_field),
-        optional(seq(":", alias($.identifier, $.method))),
-      ),
-
-    function_name_field: ($) =>
-      seq(
-        field("object", $.identifier),
-        repeat(seq(".", alias($.identifier, $.property_identifier))),
-      ),
-
-    parameters: ($) =>
-      seq(
-        "(",
-        optional(
-          seq(
-            choice($.self, $.spread, $.identifier),
-            repeat(seq(",", $.identifier)),
-            optional(seq(",", $.spread)),
-          ),
-        ),
-        ")",
-      ),
-
-    _function_body: ($) =>
-      seq(
-        $.parameters,
-        repeat($._statement),
-        optional($.return_statement),
+        "do",
+        optional($.block),
         "end",
       ),
 
-    // Expressions
+    if_statement: ($) =>
+      seq(
+        "if",
+        $._expression,
+        "then",
+        optional($.block),
+        repeat($.elseif_clause),
+        optional($.else_clause),
+        "end",
+      ),
+    elseif_clause: ($) =>
+      seq("elseif", $._expression, "then", optional($.block)),
+    else_clause: ($) => seq("else", optional($.block)),
+
+    do_statement: ($) => seq("do", optional($.block), "end"),
+
+    // expressions
     _expression: ($) =>
       choice(
-        $.spread,
-        $._prefix,
-
-        $.next,
-
-        $.function_definition,
-
-        $.table,
-
-        $.binary_operation,
-        $.unary_operation,
-
-        $.string,
-        $.number,
         $.nil,
-        $.true,
-        $.false,
-        $.identifier,
+        $.boolean,
+        $.number,
+        $.string,
+        $.unary_expression,
+        $.binary_expression,
+        $.table,
+        $.vararg_expression,
+        $.function_definition,
+        // conflict: $._expression and $.function_call
+        prec(1, $._prefix_expression),
       ),
 
-    // Expressions: Common
-    spread: () => "...",
-
-    self: () => "self",
-
-    next: () => "next",
-
-    global_variable: () => choice("_G", "_VERSION"),
-
-    _prefix: ($) =>
+    _prefix_expression: ($) =>
+      choice($.variable, $.function_call, $.parenthesized_expression),
+    parenthesized_expression: ($) => seq("(", $._expression, ")"),
+    variable: ($) =>
       choice(
-        $.self,
-        $.global_variable,
-        $._variable_declarator,
-        prec(-1, alias($.function_call_statement, $.function_call)),
-        seq("(", $._expression, ")"),
+        $.identifier,
+        seq($._prefix_expression, ".", $.identifier),
+        seq($._prefix_expression, "[", $._expression, "]"),
+      ),
+    function_call: ($) =>
+      seq(
+        $._prefix_expression,
+        optional(seq(":", $.identifier)),
+        $.argument_list,
+      ),
+    argument_list: ($) =>
+      choice($.string, $.table, seq("(", optional($.expression_list), ")")),
+    expression_list: ($) => _list($._expression, ","),
+
+    function_definition: ($) => seq("function", $._function_body),
+    _function_body: ($) =>
+      seq("(", optional($.parameter_list), ")", optional($.block), "end"),
+    parameter_list: ($) =>
+      choice(
+        $.vararg_expression,
+        seq(_list($.identifier, ","), optional(seq(",", $.vararg_expression))),
       ),
 
-    // Expressions: Function definition
-    function_definition: ($) => seq("function", $._function_body),
+    vararg_expression: () => "...",
 
-    // Expressions: Table expressions
-    table: ($) => seq("{", optional($._field_sequence), "}"),
-
+    table: ($) => seq("{", optional($.field_list), "}"),
+    field_list: ($) =>
+      seq(_list($.field, $._field_separator), optional($._field_separator)),
     field: ($) =>
       choice(
-        seq("[", $._expression, "]", "=", $._expression),
-        seq($.identifier, "=", $._expression),
         $._expression,
+        seq($.identifier, "=", $._expression),
+        seq("[", $._expression, "]", "=", $._expression),
       ),
+    _field_separator: () => choice(",", ";"),
 
-    _field_sequence: ($) =>
-      prec(
-        PREC.COMMA,
-        seq(
-          $.field,
-          repeat(seq($._field_sep, $.field)),
-          optional($._field_sep),
-        ),
-      ),
-
-    _field_sep: () => choice(",", ";"),
-
-    // Expressions: Operation expressions
-    binary_operation: ($) =>
+    binary_expression: ($) =>
       choice(
         ...[
           ["or", PREC.OR],
           ["and", PREC.AND],
-          ["<", PREC.COMPARE],
-          ["<=", PREC.COMPARE],
-          ["==", PREC.COMPARE],
-          ["~=", PREC.COMPARE],
-          [">=", PREC.COMPARE],
-          [">", PREC.COMPARE],
+          ["==", PREC.COMPARATIVE],
+          ["~=", PREC.COMPARATIVE],
+          ["<", PREC.COMPARATIVE],
+          [">", PREC.COMPARATIVE],
+          ["<=", PREC.COMPARATIVE],
+          [">=", PREC.COMPARATIVE],
           ["|", PREC.BIT_OR],
           ["~", PREC.BIT_NOT],
           ["&", PREC.BIT_AND],
-          ["<<", PREC.SHIFT],
-          [">>", PREC.SHIFT],
-          ["+", PREC.PLUS],
-          ["-", PREC.PLUS],
-          ["*", PREC.MULTI],
-          ["/", PREC.MULTI],
-          ["//", PREC.MULTI],
-          ["%", PREC.MULTI],
-        ].map(([operator, precedence]) =>
-          prec.left(precedence, seq($._expression, operator, $._expression)),
+          ["<<", PREC.BIT_SHIFT],
+          [">>", PREC.BIT_SHIFT],
+          ["+", PREC.ADDITIVE],
+          ["-", PREC.ADDITIVE],
+          ["*", PREC.MULTIPLICATIVE],
+          ["/", PREC.MULTIPLICATIVE],
+          ["//", PREC.MULTIPLICATIVE],
+          ["%", PREC.MULTIPLICATIVE],
+        ].map(([operator, priority]) =>
+          prec.left(priority, seq($._expression, operator, $._expression)),
         ),
         ...[
-          ["..", PREC.CONCAT],
+          ["..", PREC.CONCATENATION],
           ["^", PREC.POWER],
-        ].map(([operator, precedence]) =>
-          prec.right(precedence, seq($._expression, operator, $._expression)),
+        ].map(([operator, priority]) =>
+          prec.right(priority, seq($._expression, operator, $._expression)),
         ),
       ),
 
-    unary_operation: ($) =>
-      prec.left(PREC.UNARY, seq(choice("not", "#", "-", "~"), $._expression)),
-
-    // Expressions: Primitives
-    string: ($) =>
+    unary_expression: ($) =>
       choice(
-        seq("'", optional($._short_sq_string_content), "'"),
-        seq('"', optional($._short_dq_string_content), '"'),
-        $._long_string,
+        ...["not", "#", "-", "~"].map((operator) =>
+          prec.left(PREC.UNARY, seq(operator, $._expression)),
+        ),
       ),
 
-    number: () => {
-      const decimal_digits = /[0-9]+/;
-      const signed_integer = seq(optional(choice("-", "+")), decimal_digits);
-      const decimal_exponent_part = seq(choice("e", "E"), signed_integer);
+    string: ($) =>
+      seq($._string_start, optional($._string_content), $._string_end),
 
-      const decimal_integer_literal = choice(
-        "0",
-        seq(optional("0"), /[1-9]/, optional(decimal_digits)),
-      );
-
-      const hex_digits = /[a-fA-F0-9]+/;
-      const hex_exponent_part = seq(choice("p", "P"), signed_integer);
-
-      const decimal_literal = choice(
+    number: ($) =>
+      token(
         seq(
-          decimal_integer_literal,
-          ".",
-          optional(decimal_digits),
-          optional(decimal_exponent_part),
+          optional("-"),
+          choice(
+            seq(_numeral(DECIMAL_DIGIT), optional(_exponent_part("e", "E"))),
+            seq(
+              choice("0x", "0X"),
+              _numeral(HEXADECIMAL_DIGIT),
+              optional(_exponent_part("p", "P")),
+            ),
+          ),
         ),
-        seq(".", decimal_digits, optional(decimal_exponent_part)),
-        seq(decimal_integer_literal, optional(decimal_exponent_part)),
-      );
+      ),
 
-      const hex_literal = seq(
-        choice("0x", "0X"),
-        hex_digits,
-        optional(seq(".", hex_digits)),
-        optional(hex_exponent_part),
-      );
-
-      return token(choice(decimal_literal, hex_literal));
-    },
+    boolean: () => choice("false", "true"),
 
     nil: () => "nil",
-    true: () => "true",
-    false: () => "false",
 
-    // Identifier
-    identifier: () => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    identifier: () => IDENTIFIER,
 
-    // comments
-    comment: ($) => seq("--", choice(/.*/, $._long_comment)),
+    // extras
+    comment: ($) =>
+      seq($._comment_start, optional($._comment_content), $._comment_end),
   },
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [WHITESPACE, $.comment],
 
   externals: ($) => [
-    $._short_sq_string_content,
-    $._short_dq_string_content,
-    $._long_string,
-    $._long_comment,
+    $._comment_start,
+    $._comment_content,
+    $._comment_end,
+    $._string_start,
+    $._string_content,
+    $._string_end,
   ],
 
-  conflicts: ($) => [
-    [$._prefix],
-    [$._expression, $._variable_declarator],
-    [$._expression, $.function_call_statement],
-    [$.function_name, $.function_name_field],
-  ],
+  inline: ($) => [$._field_separator],
 
-  inline: ($) => [$._statement],
+  supertypes: ($) => [$._prefix_expression, $._expression, $._statement],
+
+  word: ($) => $.identifier,
 });

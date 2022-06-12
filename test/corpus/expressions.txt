@@ -1,193 +1,339 @@
-============================================
-Numeric constants
-============================================
+================================================================================
+Booleans and nil
+================================================================================
 
-3
-345
-0xff
-0xBEBADA
-3.0
-3.1416
-314.16e-2
-0.31416E1
-34e1
-0x0.1E
-0xA23p-4
+return (undefined_var == nil) == true and true or false
+
+---
+
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (parenthesized_expression
+                (binary_expression
+                  (variable
+                    (identifier))
+                  (nil)))
+              (boolean))
+            (boolean))
+          (boolean))))))
+
+================================================================================
+Numbers
+================================================================================
+
+return
+
+3,
+-3.,
+3.141593,
+314.1593e-2,
+.3141593E1,
+
+0xff,
+-0x.BEBADA,
+0x0.1E,
+0xA23p-4,
 0X1.921FB54442D18P+1
 
 ---
 
-(program
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number))
-  (expression (number)))
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)))))
 
 ================================================================================
 Short strings
 ================================================================================
 
-print('')
-print("")
-print('a single-quoted (\') string')
-print("a double-quoted (\") string")
-print("a string with -- an undetected comment")
+return
+
+'',
+"",
+'a single-quoted (\') string',
+"a double-quoted (\") string",
+"a string with an undetectable -- comment inside it",
+"a string with an undetectable --[[ comment ]] inside it",
+"a string with an undetectable --[==[ comment ]==] inside it"
 
 ---
 
-(program
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-  (function_call
-    (identifier)
-    (arguments
-      (string))))
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (string)
+        (string)
+        (string)
+        (string)
+        (string)
+        (string)
+        (string)))))
 
 ================================================================================
 Long strings
 ================================================================================
 
-print([[
+return
+
+[[
 a string
-]])
+]],
 
-print([[
-a string with
--- an undetected comment
-]])
+[=[
+a string with an undetectable
+-- comment inside it
+] =]]=],
 
-print([==[
-a string with
-[[ an undetected string ]]
-]==])
+[==[
+a string with an undetectable
+--[[ comment ]] and
+[[ string ]] inside it
+]= ]]==],
 
----
-
-(program
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-
-  (function_call
-    (identifier)
-    (arguments
-      (string)))
-
-  (function_call
-    (identifier)
-    (arguments
-      (string))))
-
-============================================
-Binary operations
-============================================
-
-a = i + j * 3 - j % 5
-
-b = k + v % 5 ^ 2
-
-c = i * 2 ^ j
+[====[
+a string with an undetectable
+--[==[ comment ]==] and
+[[ string ]] inside it
+] ====]]====]
 
 ---
 
-(program
-  (variable_declaration (variable_declarator (identifier))
-    (binary_operation
-      (binary_operation (identifier)
-        (binary_operation (identifier) (number)))
-      (binary_operation (identifier) (number))))
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (string)
+        (string)
+        (string)
+        (string)))))
 
-  (variable_declaration (variable_declarator (identifier))
-    (binary_operation (identifier)
-      (binary_operation (identifier)
-        (binary_operation (number) (number)))))
+================================================================================
+Unary expressions
+================================================================================
 
-  (variable_declaration (variable_declarator (identifier))
-    (binary_operation (identifier)
-      (binary_operation (number) (identifier)))))
-
-============================================
-Unary operations
-============================================
-
-food_table_size = #food
-
-negative_value = -value
-
-tern_bool = not condition and true or false
+return not (-#{} < 0)
 
 ---
 
-(program
-  (variable_declaration (variable_declarator (identifier))
-    (unary_operation (identifier)))
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (unary_expression
+          (parenthesized_expression
+            (binary_expression
+              (unary_expression
+                (unary_expression
+                  (table)))
+              (number))))))))
 
-  (variable_declaration (variable_declarator (identifier))
-    (unary_operation (identifier)))
+================================================================================
+Binary expressions
+================================================================================
 
-  (variable_declaration (variable_declarator (identifier))
-    (binary_operation
-      (binary_operation
-        (unary_operation (identifier)) (true))
-      (false))))
+return
 
-============================================
+(8^2 + 6^2)^.5,
+math.pi * (8 / 2),
+true and 1 or 0
+
+---
+
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (binary_expression
+          (parenthesized_expression
+            (binary_expression
+              (binary_expression
+                (number)
+                (number))
+              (binary_expression
+                (number)
+                (number))))
+          (number))
+        (binary_expression
+          (variable
+            (variable
+              (identifier))
+            (identifier))
+          (parenthesized_expression
+            (binary_expression
+              (number)
+              (number))))
+        (binary_expression
+          (binary_expression
+            (boolean)
+            (number))
+          (number))))))
+
+================================================================================
 Tables
-============================================
+================================================================================
 
-food = {
-  ["favorites"] = {
-    ['pizza'] = true,
-    hotdog = false
-  }
-}
-
-local games = {
-  favorites = {
-    { 'the witcher', "world of warcraft", 'dragon age', "mass effect" }
-  }
+return {
+  [math.pi] = _VERSION;
+  "x",
+  "y";
+  x = 1,
+  string.len(_VERSION),
+  [30] = 23;
+  {};
+  45
 }
 
 ---
 
-(program
-  (variable_declaration (variable_declarator (identifier))
-    (table
-      (field (string)
+(chunk
+  (block
+    (return_statement
+      (expression_list
         (table
-          (field (string) (true))
-          (field (identifier) (false))))))
+          (field_list
+            (field
+              (variable
+                (variable
+                  (identifier))
+                (identifier))
+              (variable
+                (identifier)))
+            (field
+              (string))
+            (field
+              (string))
+            (field
+              (identifier)
+              (number))
+            (field
+              (function_call
+                (variable
+                  (variable
+                    (identifier))
+                  (identifier))
+                (argument_list
+                  (expression_list
+                    (variable
+                      (identifier))))))
+            (field
+              (number)
+              (number))
+            (field
+              (table))
+            (field
+              (number))))))))
 
-  (local_variable_declaration (variable_declarator (identifier))
-    (table
-      (field (identifier)
-        (table
-          (field
-            (table
-              (field (string))
-              (field (string))
-              (field (string))
-              (field (string)))))))))
+================================================================================
+Function definitions
+================================================================================
+
+return
+
+function() end,
+
+function(...)
+  return ...
+end,
+
+function(f, ...)
+  return f(...)
+end
+
+---
+
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (function_definition)
+        (function_definition
+          (parameter_list
+            (vararg_expression))
+          (block
+            (return_statement
+              (expression_list
+                (vararg_expression)))))
+        (function_definition
+          (parameter_list
+            (identifier)
+            (vararg_expression))
+          (block
+            (return_statement
+              (expression_list
+                (function_call
+                  (variable
+                    (identifier))
+                  (argument_list
+                    (expression_list
+                      (vararg_expression))))))))))))
+
+================================================================================
+Variable access
+================================================================================
+
+return
+
+_G[1],
+math.pi,
+math["pi"]
+
+---
+
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (variable
+          (variable
+            (identifier))
+          (number))
+        (variable
+          (variable
+            (identifier))
+          (identifier))
+        (variable
+          (variable
+            (identifier))
+          (string))))))
+
+================================================================================
+Function calls
+================================================================================
+
+return
+
+print(),
+string.char()
+
+---
+
+(chunk
+  (block
+    (return_statement
+      (expression_list
+        (function_call
+          (variable
+            (identifier))
+          (argument_list))
+        (function_call
+          (variable
+            (variable
+              (identifier))
+            (identifier))
+          (argument_list))))))

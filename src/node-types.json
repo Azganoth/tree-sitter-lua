@@ -1,58 +1,144 @@
 [
   {
-    "type": "arguments",
+    "type": "_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "_prefix_expression",
+        "named": true
+      },
+      {
+        "type": "binary_expression",
+        "named": true
+      },
+      {
+        "type": "boolean",
+        "named": true
+      },
+      {
+        "type": "function_definition",
+        "named": true
+      },
+      {
+        "type": "nil",
+        "named": true
+      },
+      {
+        "type": "number",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      },
+      {
+        "type": "table",
+        "named": true
+      },
+      {
+        "type": "unary_expression",
+        "named": true
+      },
+      {
+        "type": "vararg_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_prefix_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "function_call",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "variable",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "break_statement",
+        "named": true
+      },
+      {
+        "type": "do_statement",
+        "named": true
+      },
+      {
+        "type": "empty_statement",
+        "named": true
+      },
+      {
+        "type": "for_generic_statement",
+        "named": true
+      },
+      {
+        "type": "for_numeric_statement",
+        "named": true
+      },
+      {
+        "type": "function_call",
+        "named": true
+      },
+      {
+        "type": "function_definition_statement",
+        "named": true
+      },
+      {
+        "type": "goto_statement",
+        "named": true
+      },
+      {
+        "type": "if_statement",
+        "named": true
+      },
+      {
+        "type": "label_statement",
+        "named": true
+      },
+      {
+        "type": "repeat_statement",
+        "named": true
+      },
+      {
+        "type": "scoped_function_definition_statement",
+        "named": true
+      },
+      {
+        "type": "scoped_variable_declaration",
+        "named": true
+      },
+      {
+        "type": "variable_assignment",
+        "named": true
+      },
+      {
+        "type": "while_statement",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "argument_list",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
+          "type": "expression_list",
           "named": true
         },
         {
@@ -62,20 +148,27 @@
         {
           "type": "table",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
+          "type": "identifier",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "binary_operation",
+    "type": "binary_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -83,67 +176,46 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_statement",
           "named": true
         },
         {
-          "type": "false",
+          "type": "return_statement",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "chunk",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
         {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
+          "type": "block",
           "named": true
         }
       ]
@@ -155,232 +227,37 @@
     "fields": {}
   },
   {
-    "type": "condition_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "do_statement",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "else",
+    "type": "else_clause",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "elseif",
+    "type": "elseif_clause",
     "named": true,
     "fields": {},
     "children": {
@@ -388,78 +265,23 @@
       "required": true,
       "types": [
         {
-          "type": "break_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "condition_expression",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "expression",
+    "type": "empty_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "expression_list",
     "named": true,
     "fields": {},
     "children": {
@@ -467,67 +289,7 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -542,74 +304,18 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "identifier",
           "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "field_expression",
+    "type": "field_list",
     "named": true,
     "fields": {},
     "children": {
@@ -617,312 +323,53 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
+          "type": "field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_generic_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
           "named": true
         },
         {
-          "type": "false",
+          "type": "expression_list",
           "named": true
         },
         {
-          "type": "field_expression",
+          "type": "variable_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_numeric_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
+          "type": "block",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "property_identifier",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "for_in_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "loop_expression",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "for_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "loop_expression",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "function",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_name",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
           "named": true
         }
       ]
@@ -937,75 +384,15 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "_prefix_expression",
           "named": true
         },
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "method",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
           "named": true
         }
       ]
@@ -1017,81 +404,21 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "break_statement",
+          "type": "block",
           "named": true
         },
         {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "parameter_list",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "function_name",
+    "type": "function_definition_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -1099,50 +426,34 @@
       "required": true,
       "types": [
         {
-          "type": "function_name_field",
+          "type": "block",
           "named": true
         },
+        {
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "parameter_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "identifier",
           "named": true
-        },
-        {
-          "type": "method",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "function_name_field",
-    "named": true,
-    "fields": {
-      "object": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "property_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "global_variable",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "goto_statement",
@@ -1168,79 +479,19 @@
       "required": true,
       "types": [
         {
-          "type": "break_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "condition_expression",
+          "type": "block",
           "named": true
         },
         {
-          "type": "do_statement",
+          "type": "else_clause",
           "named": true
         },
         {
-          "type": "else",
-          "named": true
-        },
-        {
-          "type": "elseif",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "elseif_clause",
           "named": true
         }
       ]
@@ -1262,7 +513,7 @@
     }
   },
   {
-    "type": "local_function",
+    "type": "parameter_list",
     "named": true,
     "fields": {},
     "children": {
@@ -1270,327 +521,26 @@
       "required": true,
       "types": [
         {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "vararg_expression",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "local_variable_declaration",
+    "type": "parenthesized_expression",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        },
-        {
-          "type": "variable_declarator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "loop_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "program",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -1605,71 +555,11 @@
       "required": true,
       "types": [
         {
-          "type": "break_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "condition_expression",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         }
       ]
@@ -1684,27 +574,26 @@
       "required": false,
       "types": [
         {
-          "type": "binary_operation",
+          "type": "empty_statement",
           "named": true
         },
         {
-          "type": "false",
+          "type": "expression_list",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "scoped_function_definition_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
+          "type": "block",
           "named": true
         },
         {
@@ -1712,39 +601,45 @@
           "named": true
         },
         {
-          "type": "next",
+          "type": "parameter_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scoped_variable",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
           "named": true
         },
         {
-          "type": "nil",
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scoped_variable_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression_list",
           "named": true
         },
         {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
+          "type": "variable_list",
           "named": true
         }
       ]
@@ -1760,18 +655,33 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "field",
+          "type": "field_list",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "unary_operation",
+    "type": "unary_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable",
     "named": true,
     "fields": {},
     "children": {
@@ -1779,74 +689,18 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "variable_declaration",
+    "type": "variable_assignment",
     "named": true,
     "fields": {},
     "children": {
@@ -1854,78 +708,18 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
+          "type": "expression_list",
           "named": true
         },
         {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        },
-        {
-          "type": "variable_declarator",
+          "type": "variable_list",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "variable_declarator",
+    "type": "variable_list",
     "named": true,
     "fields": {},
     "children": {
@@ -1933,67 +727,15 @@
       "required": true,
       "types": [
         {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "next",
+          "type": "scoped_variable",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "spread",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
+          "type": "variable",
           "named": true
         }
       ]
@@ -2008,79 +750,15 @@
       "required": true,
       "types": [
         {
-          "type": "break_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "condition_expression",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_in_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_statement",
-          "named": true
-        },
-        {
-          "type": "local_function",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "repeat_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         }
       ]
     }
-  },
-  {
-    "type": "\"",
-    "named": false
   },
   {
     "type": "#",
@@ -2092,10 +770,6 @@
   },
   {
     "type": "&",
-    "named": false
-  },
-  {
-    "type": "'",
     "named": false
   },
   {
@@ -2120,10 +794,6 @@
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": "--",
     "named": false
   },
   {
@@ -2199,14 +869,6 @@
     "named": false
   },
   {
-    "type": "_G",
-    "named": false
-  },
-  {
-    "type": "_VERSION",
-    "named": false
-  },
-  {
     "type": "and",
     "named": false
   },
@@ -2232,7 +894,7 @@
   },
   {
     "type": "false",
-    "named": true
+    "named": false
   },
   {
     "type": "for",
@@ -2263,14 +925,6 @@
     "named": false
   },
   {
-    "type": "method",
-    "named": true
-  },
-  {
-    "type": "next",
-    "named": true
-  },
-  {
     "type": "nil",
     "named": true
   },
@@ -2287,10 +941,6 @@
     "named": false
   },
   {
-    "type": "property_identifier",
-    "named": true
-  },
-  {
     "type": "repeat",
     "named": false
   },
@@ -2299,24 +949,20 @@
     "named": false
   },
   {
-    "type": "self",
-    "named": true
-  },
-  {
-    "type": "spread",
-    "named": true
-  },
-  {
     "type": "then",
     "named": false
   },
   {
     "type": "true",
-    "named": true
+    "named": false
   },
   {
     "type": "until",
     "named": false
+  },
+  {
+    "type": "vararg_expression",
+    "named": true
   },
   {
     "type": "while",

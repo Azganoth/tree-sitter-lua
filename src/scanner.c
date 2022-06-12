@@ -1,15 +1,15 @@
 #include <tree_sitter/parser.h>
+#include <wctype.h>
 
 enum TokenType
 {
-  SHORT_SQ_STRING_CONTENT,
-  SHORT_DQ_STRING_CONTENT,
-  LONG_STRING,
-  LONG_COMMENT,
+  COMMENT_START,
+  COMMENT_CONTENT,
+  COMMENT_END,
+  STRING_START,
+  STRING_CONTENT,
+  STRING_END,
 };
-
-// helpers
-const char EOF = 0;
 
 static void consume(TSLexer *lexer)
 {
@@ -19,8 +19,20 @@ static void skip(TSLexer *lexer)
 {
   lexer->advance(lexer, true);
 }
+static bool consume_if(TSLexer *lexer, const int32_t character)
+{
+  if (lexer->lookahead == character)
+  {
+    consume(lexer);
+    return true;
+  }
 
-// scanner
+  return false;
+}
+
+const char SQ_STRING_DELIMITER = '\'';
+const char DQ_STRING_DELIMITER = '"';
+
 void *tree_sitter_lua_external_scanner_create()
 {
   return NULL;
@@ -30,120 +42,267 @@ void tree_sitter_lua_external_scanner_destroy(void *payload)
 {
 }
 
-unsigned tree_sitter_lua_external_scanner_serialize(
-    void *payload,
-    char *buffer)
+enum StartedToken
 {
-  return 0;
+  SHORT_COMMENT = 1,
+  SHORT_SQ_STRING,
+  SHORT_DQ_STRING,
+  LONG_COMMENT,
+  LONG_STRING,
+};
+
+unsigned short started = 0;
+unsigned int depth = 0;
+
+unsigned int tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer)
+{
+  buffer[0] = started;
+  buffer[1] = depth;
+  return 2;
 }
 
-void tree_sitter_lua_external_scanner_deserialize(
-    void *payload,
-    const char *buffer,
-    unsigned length)
+void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buffer, unsigned int length)
 {
-}
-
-static bool is_not_new_line_or_eof(TSLexer *lexer)
-{
-  return lexer->lookahead != '\n' && lexer->lookahead != EOF;
-}
-
-bool tree_sitter_lua_external_scanner_scan(
-    void *payload,
-    TSLexer *lexer,
-    const bool *valid_symbols)
-{
-  if (valid_symbols[SHORT_SQ_STRING_CONTENT] ||
-      valid_symbols[SHORT_DQ_STRING_CONTENT])
+  if (length == 2)
   {
-    const bool is_single_quote = valid_symbols[SHORT_SQ_STRING_CONTENT];
-    const char end_quote = is_single_quote ? '\'' : '"';
+    started = buffer[0];
+    depth = buffer[1];
+  }
+}
 
-    // try to consume almost anything
-    if (lexer->lookahead != end_quote && is_not_new_line_or_eof(lexer))
+static unsigned int get_depth(TSLexer *lexer)
+{
+  unsigned int current_depth = 0;
+  while (consume_if(lexer, '='))
+  {
+    current_depth += 1;
+  }
+
+  return current_depth;
+}
+
+static bool scan_depth(TSLexer *lexer)
+{
+  unsigned int remaining_depth = depth;
+  while (remaining_depth > 0 && consume_if(lexer, '='))
+  {
+    remaining_depth -= 1;
+  }
+
+  return remaining_depth == 0;
+}
+
+bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols)
+{
+  switch (started)
+  {
+  case SHORT_COMMENT:
+  {
+    // try to match the short comment's end (new line or eof)
+    if (lexer->lookahead == '\n' || lexer->eof(lexer))
     {
+      if (valid_symbols[COMMENT_END])
+      {
+        started = 0;
+
+        lexer->result_symbol = COMMENT_END;
+        return true;
+      }
+    }
+    else if (valid_symbols[COMMENT_CONTENT])
+    {
+      // consume all characters till a short comment's end
       do
       {
-        // try to consume a backslash
-        if (lexer->lookahead == '\\')
-        {
-          consume(lexer);
+        consume(lexer);
+      } while (lexer->lookahead != '\n' && !lexer->eof(lexer));
 
-          // try to consume almost anything
-          if (is_not_new_line_or_eof(lexer))
-          {
-            consume(lexer);
-          }
-        }
-        else
-        {
-          consume(lexer);
-        }
-        // consume almost everything
-      } while (lexer->lookahead != end_quote && is_not_new_line_or_eof(lexer));
-
-      lexer->result_symbol = is_single_quote
-                                 ? SHORT_SQ_STRING_CONTENT
-                                 : SHORT_DQ_STRING_CONTENT;
+      lexer->result_symbol = COMMENT_CONTENT;
       return true;
     }
-  }
-  else if (valid_symbols[LONG_STRING] || valid_symbols[LONG_COMMENT])
-  {
-    // try to consume a first opening bracket
-    if (lexer->lookahead == '[')
-    {
-      consume(lexer);
 
-      // consume any level delimiters, and store how many there are
-      unsigned int level_count = 0;
-      while (lexer->lookahead == '=')
+    break;
+  }
+  case SHORT_SQ_STRING:
+  case SHORT_DQ_STRING:
+  {
+    // define the short string's delimiter
+    const char delimiter = started == SHORT_SQ_STRING ? SQ_STRING_DELIMITER : DQ_STRING_DELIMITER;
+
+    // try to match the short string's end (" or ')
+    if (consume_if(lexer, delimiter))
+    {
+      if (valid_symbols[STRING_END])
       {
+        started = 0;
+
+        lexer->result_symbol = STRING_END;
+        return true;
+      }
+    }
+    else if (valid_symbols[STRING_CONTENT] && lexer->lookahead != '\n' && !lexer->eof(lexer))
+    {
+      // consume any character till a short string's end, new line or eof
+      do
+      {
+        // consume any character after a backslash, unless it's a new line or eof
+        if (consume_if(lexer, '\\') && (lexer->lookahead == '\n' || lexer->eof(lexer)))
+        {
+          break;
+        }
+
         consume(lexer);
-        level_count += 1;
+      } while (lexer->lookahead != delimiter && lexer->lookahead != '\n' && !lexer->eof(lexer));
+
+      lexer->result_symbol = STRING_CONTENT;
+      return true;
+    }
+
+    break;
+  }
+  case LONG_COMMENT:
+  case LONG_STRING:
+  {
+    const bool is_inside_a_comment = started == LONG_COMMENT;
+
+    bool some_characters_were_consumed = false;
+    if (is_inside_a_comment ? valid_symbols[COMMENT_END] : valid_symbols[STRING_END])
+    {
+      // try to match the long comment's/string's end (]=*])
+      if (consume_if(lexer, ']'))
+      {
+        if (scan_depth(lexer) && consume_if(lexer, ']'))
+        {
+          started = 0;
+          depth = 0;
+
+          lexer->result_symbol = is_inside_a_comment ? COMMENT_END : STRING_END;
+          return true;
+        }
+
+        some_characters_were_consumed = true;
+      }
+    }
+
+    if (is_inside_a_comment ? valid_symbols[COMMENT_CONTENT] : valid_symbols[STRING_CONTENT])
+    {
+      if (!some_characters_were_consumed)
+      {
+        if (lexer->eof(lexer))
+        {
+          break;
+        }
+
+        // consume the next character as it can't start a long comment's/string's end ([)
+        consume(lexer);
       }
 
-      // try to consume the last opening bracket
-      if (lexer->lookahead == '[')
+      // consume any character till a long comment's/string's end or eof
+      while (true)
       {
-        consume(lexer);
-
-        // consume almost everything
-        while (lexer->lookahead != EOF)
+        lexer->mark_end(lexer);
+        if (consume_if(lexer, ']'))
         {
-          // try to consume a first closing bracket
-          if (lexer->lookahead == ']')
+          if (scan_depth(lexer))
           {
-            consume(lexer);
-
-            // try to consume every level delimiters
-            unsigned int current_level;
-            for (current_level = level_count;
-                 current_level > 0 && lexer->lookahead == '=';
-                 current_level -= 1)
+            if (consume_if(lexer, ']'))
             {
-              consume(lexer);
-            }
-
-            // try to consume the last closing bracket if all levels are consumed
-            if (current_level == 0 && lexer->lookahead == ']')
-            {
-              consume(lexer);
-
-              lexer->result_symbol = valid_symbols[LONG_STRING]
-                                         ? LONG_STRING
-                                         : LONG_COMMENT;
-              return true;
+              break;
             }
           }
           else
           {
-            consume(lexer);
+            continue;
           }
         }
+
+        if (lexer->eof(lexer))
+        {
+          break;
+        }
+
+        consume(lexer);
+      }
+
+      lexer->result_symbol = is_inside_a_comment ? COMMENT_CONTENT : STRING_CONTENT;
+      return true;
+    }
+
+    break;
+  }
+  default:
+  {
+    // ignore all whitespace
+    while (iswspace(lexer->lookahead))
+    {
+      skip(lexer);
+    }
+
+    if (valid_symbols[COMMENT_START])
+    {
+      // try to match a short comment's start (--)
+      if (consume_if(lexer, '-'))
+      {
+        if (consume_if(lexer, '-'))
+        {
+          started = SHORT_COMMENT;
+
+          // try to match a long comment's start (--[=*[)
+          lexer->mark_end(lexer);
+          if (consume_if(lexer, '['))
+          {
+            unsigned int possible_depth = get_depth(lexer);
+
+            if (consume_if(lexer, '['))
+            {
+              started = LONG_COMMENT;
+              depth = possible_depth;
+
+              lexer->mark_end(lexer);
+            }
+          }
+
+          lexer->result_symbol = COMMENT_START;
+          return true;
+        }
+
+        break;
       }
     }
+
+    if (valid_symbols[STRING_START])
+    {
+      // try to match a short single-quoted string's start (")
+      if (consume_if(lexer, SQ_STRING_DELIMITER))
+      {
+        started = SHORT_SQ_STRING;
+      }
+      // try to match a short double-quoted string's start (')
+      else if (consume_if(lexer, DQ_STRING_DELIMITER))
+      {
+        started = SHORT_DQ_STRING;
+      }
+      // try to match a long string's start ([=*[)
+      else if (consume_if(lexer, '['))
+      {
+        unsigned int possible_depth = get_depth(lexer);
+
+        if (consume_if(lexer, '['))
+        {
+          started = LONG_STRING;
+          depth = possible_depth;
+        }
+      }
+
+      if (started)
+      {
+        lexer->result_symbol = STRING_START;
+        return true;
+      }
+    }
+
+    break;
+  }
   }
 
   return false;
