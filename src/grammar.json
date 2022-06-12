@@ -6,13 +6,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "block"
-          },
-          "named": false,
-          "value": "block"
+          "type": "SYMBOL",
+          "name": "_block"
         },
         {
           "type": "BLANK"
@@ -20,6 +15,10 @@
       ]
     },
     "block": {
+      "type": "SYMBOL",
+      "name": "_block"
+    },
+    "_block": {
       "type": "CHOICE",
       "members": [
         {
