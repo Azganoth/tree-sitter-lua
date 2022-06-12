@@ -17,6 +17,7 @@ const WHITESPACE = /\s/;
 const IDENTIFIER = /[a-zA-Z_][0-9a-zA-Z_]*/;
 const DECIMAL_DIGIT = /[0-9]/;
 const HEXADECIMAL_DIGIT = /[0-9a-fA-F]/;
+const SHEBANG = /#!.*/;
 
 const _numeral = (digit) =>
   choice(
@@ -38,10 +39,11 @@ module.exports = grammar({
   name: "lua",
 
   rules: {
-    chunk: ($) => optional($._block),
+    chunk: ($) => seq(optional($.shebang), optional($._block)),
+
+    shebang: ($) => SHEBANG,
 
     block: ($) => $._block,
-
     _block: ($) =>
       choice(
         $.return_statement,

@@ -323,6 +323,10 @@
         {
           "type": "return_statement",
           "named": true
+        },
+        {
+          "type": "shebang",
+          "named": true
         }
       ]
     }
@@ -1261,6 +1265,10 @@
   {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "shebang",
+    "named": true
   },
   {
     "type": "then",
