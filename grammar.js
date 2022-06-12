@@ -38,7 +38,7 @@ module.exports = grammar({
   name: "lua",
 
   rules: {
-    chunk: ($) => optional($.block),
+    chunk: ($) => optional(alias($.block, "block")),
 
     block: ($) =>
       choice(

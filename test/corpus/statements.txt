@@ -13,29 +13,28 @@ end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (do_statement
-      body: (block
-        (scoped_variable_declaration
-          (variable_list
-            (variable
-              name: (identifier)))
-          (expression_list
-            value: (number)))
-        (do_statement
-          body: (block
-            (scoped_variable_declaration
-              (variable_list
-                (variable
-                  name: (identifier)))
-              (expression_list
-                value: (number)))))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (do_statement
+    body: (block
+      (scoped_variable_declaration
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (number)))
+      (do_statement
+        body: (block
+          (scoped_variable_declaration
+            (variable_list
+              (variable
+                name: (identifier)))
+            (expression_list
+              value: (number))))))))
 
 ================================================================================
 If conditionals
@@ -69,14 +68,57 @@ if n > 15 then elseif n < 5 then elseif n == 10 then end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (function_call
         (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (if_statement
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (string))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (string)))))
+    alternative: (else_clause
+      body: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (expression_list
+              (string)))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (string)))))
+    alternative: (elseif_clause
       condition: (binary_expression
         left: (variable
           name: (identifier))
@@ -88,94 +130,50 @@ if n > 15 then elseif n < 5 then elseif n == 10 then end
           arguments: (argument_list
             (expression_list
               (string))))))
-    (if_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))
-      consequence: (block
+    alternative: (else_clause
+      body: (block
         (function_call
           (variable
             name: (identifier))
           arguments: (argument_list
             (expression_list
-              (string)))))
-      alternative: (else_clause
-        body: (block
-          (function_call
-            (variable
-              name: (identifier))
-            arguments: (argument_list
-              (expression_list
-                (string)))))))
-    (if_statement
+              (string)))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number)))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    alternative: (else_clause))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    alternative: (elseif_clause
       condition: (binary_expression
         left: (variable
           name: (identifier))
-        right: (number))
-      consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (string)))))
-      alternative: (elseif_clause
-        condition: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number))
-        consequence: (block
-          (function_call
-            (variable
-              name: (identifier))
-            arguments: (argument_list
-              (expression_list
-                (string))))))
-      alternative: (else_clause
-        body: (block
-          (function_call
-            (variable
-              name: (identifier))
-            arguments: (argument_list
-              (expression_list
-                (string)))))))
-    (if_statement
+        right: (number))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    alternative: (elseif_clause
       condition: (binary_expression
         left: (variable
           name: (identifier))
         right: (number)))
-    (if_statement
+    alternative: (elseif_clause
       condition: (binary_expression
         left: (variable
           name: (identifier))
-        right: (number))
-      alternative: (else_clause))
-    (if_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))
-      alternative: (elseif_clause
-        condition: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number))))
-    (if_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))
-      alternative: (elseif_clause
-        condition: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number)))
-      alternative: (elseif_clause
-        condition: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number))))))
+        right: (number)))))
 
 ================================================================================
 While loop
@@ -191,33 +189,32 @@ while n ~= 10 do end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (while_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))
-      body: (block
-        (variable_assignment
-          (variable_list
-            (variable
-              name: (identifier)))
-          (expression_list
-            value: (binary_expression
-              left: (variable
-                name: (identifier))
-              right: (number))))))
-    (while_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number)))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (while_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number))))))
+  (while_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))))
 
 ================================================================================
 Repeat loop
@@ -233,33 +230,32 @@ repeat until n ~= 10
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (repeat_statement
-      body: (block
-        (variable_assignment
-          (variable_list
-            (variable
-              name: (identifier)))
-          (expression_list
-            value: (binary_expression
-              left: (variable
-                name: (identifier))
-              right: (number)))))
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number)))
-    (repeat_statement
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number)))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (repeat_statement
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number)))))
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number)))
+  (repeat_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))))
 
 ================================================================================
 Numeric for loop
@@ -275,30 +271,29 @@ for i = 0, 10 do end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (for_numeric_statement
-      name: (identifier)
-      start: (number)
-      end: (number)
-      step: (number)
-      body: (block
-        (variable_assignment
-          (variable_list
-            (variable
-              name: (identifier)))
-          (expression_list
-            value: (variable
-              name: (identifier))))))
-    (for_numeric_statement
-      name: (identifier)
-      start: (number)
-      end: (number))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (for_numeric_statement
+    name: (identifier)
+    start: (number)
+    end: (number)
+    step: (number)
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (variable
+            name: (identifier))))))
+  (for_numeric_statement
+    name: (identifier)
+    start: (number)
+    end: (number)))
 
 ================================================================================
 Generic for loop
@@ -315,75 +310,74 @@ for i in ipairs(t) do end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (table
+        (field_list
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))
+          (field
+            value: (number))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (for_generic_statement
+    left: (variable_list
+      name: (identifier)
+      name: (identifier))
+    right: (expression_list
+      value: (function_call
         (variable
-          name: (identifier)))
-      (expression_list
-        value: (table
-          (field_list
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))
-            (field
-              value: (number))))))
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (for_generic_statement
-      left: (variable_list
-        name: (identifier)
-        name: (identifier))
-      right: (expression_list
-        value: (function_call
-          (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (variable
-                name: (identifier))))))
-      body: (block
-        (variable_assignment
-          (variable_list
-            (variable
-              name: (identifier)))
+          name: (identifier))
+        arguments: (argument_list
           (expression_list
-            value: (binary_expression
-              left: (variable
-                name: (identifier))
-              right: (number))))))
-    (for_generic_statement
-      left: (variable_list
-        name: (identifier))
-      right: (expression_list
-        value: (function_call
+            (variable
+              name: (identifier))))))
+    body: (block
+      (variable_assignment
+        (variable_list
           (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (variable
-                name: (identifier)))))))))
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number))))))
+  (for_generic_statement
+    left: (variable_list
+      name: (identifier))
+    right: (expression_list
+      value: (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (variable
+              name: (identifier))))))))
 
 ================================================================================
 Loop break
@@ -400,32 +394,31 @@ end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (while_statement
-      condition: (boolean)
-      body: (block
-        (variable_assignment
-          (variable_list
-            (variable
-              name: (identifier)))
-          (expression_list
-            value: (binary_expression
-              left: (variable
-                name: (identifier))
-              right: (number))))
-        (if_statement
-          condition: (binary_expression
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (while_statement
+    condition: (boolean)
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
             left: (variable
               name: (identifier))
-            right: (number))
-          consequence: (block
-            (break_statement)))))))
+            right: (number))))
+      (if_statement
+        condition: (binary_expression
+          left: (variable
+            name: (identifier))
+          right: (number))
+        consequence: (block
+          (break_statement))))))
 
 ================================================================================
 Labels
@@ -443,32 +436,31 @@ end
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)))
-    (label_statement
-      name: (identifier))
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number))))
-    (if_statement
-      condition: (binary_expression
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (label_statement
+    name: (identifier))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (binary_expression
         left: (variable
           name: (identifier))
-        right: (number))
-      consequence: (block
-        (goto_statement
-          name: (identifier))))))
+        right: (number))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (goto_statement
+        name: (identifier)))))
 
 ================================================================================
 Variable assignments
@@ -480,30 +472,29 @@ x, y, z = 0.25, 0.4, 0.15
 ---
 
 (chunk
-  (block
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (nil)
-        value: (number)))
-    (variable_assignment
-      (variable_list
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier)))
-      (expression_list
-        value: (number)
-        value: (number)
-        value: (number)))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (nil)
+      value: (number)))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)
+      value: (number)
+      value: (number))))
 
 ================================================================================
 Scoped variable declarations
@@ -516,35 +507,34 @@ local x, y, z<const> = 0.25, 0.4, 0.15
 ---
 
 (chunk
-  (block
-    (scoped_variable_declaration
-      (variable_list
-        (variable
-          name: (identifier))))
-    (scoped_variable_declaration
-      (variable_list
-        (variable
-          name: (identifier)
-          (attribute
-            name: (identifier)))
-        (variable
+  (scoped_variable_declaration
+    (variable_list
+      (variable
+        name: (identifier))))
+  (scoped_variable_declaration
+    (variable_list
+      (variable
+        name: (identifier)
+        (attribute
           name: (identifier)))
-      (expression_list
-        value: (number)))
-    (scoped_variable_declaration
-      (variable_list
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier))
-        (variable
-          name: (identifier)
-          (attribute
-            name: (identifier))))
-      (expression_list
-        value: (number)
-        value: (number)
-        value: (number)))))
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (scoped_variable_declaration
+    (variable_list
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier))
+      (variable
+        name: (identifier)
+        (attribute
+          name: (identifier))))
+    (expression_list
+      value: (number)
+      value: (number)
+      value: (number))))
 
 ================================================================================
 Function definitions (syntactic sugar)
@@ -563,43 +553,42 @@ end
 ---
 
 (chunk
-  (block
-    (function_definition_statement
-      name: (function_identifier
-        (identifier)))
-    (function_definition_statement
-      name: (function_identifier
-        (identifier)
-        (identifier))
-      parameters: (parameter_list
-        name: (identifier)
-        name: (identifier))
-      body: (block
-        (return_statement
-          (expression_list
-            (binary_expression
-              left: (variable
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)
+      (identifier))
+    parameters: (parameter_list
+      name: (identifier)
+      name: (identifier))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (variable
+              name: (identifier)))))))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)
+      method: (identifier))
+    parameters: (parameter_list
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (function_call
+            (variable
+              table: (variable
                 name: (identifier))
-              right: (variable
-                name: (identifier)))))))
-    (function_definition_statement
-      name: (function_identifier
-        (identifier)
-        method: (identifier))
-      parameters: (parameter_list
-        (vararg_expression))
-      body: (block
-        (return_statement
-          (expression_list
-            (function_call
-              (variable
-                table: (variable
-                  name: (identifier))
-                field: (identifier))
-              arguments: (argument_list
-                (expression_list
-                  (number)
-                  (number))))))))))
+              field: (identifier))
+            arguments: (argument_list
+              (expression_list
+                (number)
+                (number)))))))))
 
 ================================================================================
 Scoped function definitions (syntactic sugar)
@@ -618,36 +607,35 @@ end
 ---
 
 (chunk
-  (block
-    (scoped_function_definition_statement
+  (scoped_function_definition_statement
+    name: (identifier))
+  (scoped_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      name: (identifier)
       name: (identifier))
-    (scoped_function_definition_statement
-      name: (identifier)
-      parameters: (parameter_list
-        name: (identifier)
-        name: (identifier))
-      body: (block
-        (return_statement
-          (expression_list
-            (binary_expression
-              left: (variable
-                name: (identifier))
-              right: (variable
-                name: (identifier)))))))
-    (scoped_function_definition_statement
-      name: (identifier)
-      parameters: (parameter_list
-        (vararg_expression))
-      body: (block
-        (return_statement
-          (expression_list
-            (function_call
-              (variable
-                name: (identifier))
-              arguments: (argument_list
-                (expression_list
-                  (number)
-                  (number))))))))))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (variable
+              name: (identifier)))))))
+  (scoped_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (function_call
+            (variable
+              name: (identifier))
+            arguments: (argument_list
+              (expression_list
+                (number)
+                (number)))))))))
 
 ================================================================================
 Function calls (as statement)
@@ -660,25 +648,24 @@ print(math.random())
 ---
 
 (chunk
-  (block
-    (function_call
-      (variable
-        name: (identifier))
-      arguments: (argument_list))
-    (function_call
-      (variable
-        name: (identifier))
-      arguments: (argument_list
-        (expression_list
-          (string))))
-    (function_call
-      (variable
-        name: (identifier))
-      arguments: (argument_list
-        (expression_list
-          (function_call
-            (variable
-              table: (variable
-                name: (identifier))
-              field: (identifier))
-            arguments: (argument_list)))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier))
+          arguments: (argument_list))))))

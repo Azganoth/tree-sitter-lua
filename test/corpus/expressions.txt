@@ -7,20 +7,19 @@ return (undefined_var == nil) == true and true or false
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (binary_expression
+  (return_statement
+    (expression_list
+      (binary_expression
+        left: (binary_expression
           left: (binary_expression
-            left: (binary_expression
-              left: (parenthesized_expression
-                (binary_expression
-                  left: (variable
-                    name: (identifier))
-                  right: (nil)))
-              right: (boolean))
+            left: (parenthesized_expression
+              (binary_expression
+                left: (variable
+                  name: (identifier))
+                right: (nil)))
             right: (boolean))
-          right: (boolean))))))
+          right: (boolean))
+        right: (boolean)))))
 
 ================================================================================
 Numbers
@@ -43,19 +42,18 @@ return
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)
-        (number)))))
+  (return_statement
+    (expression_list
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number))))
 
 ================================================================================
 Short strings
@@ -74,16 +72,15 @@ return
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (string)
-        (string)
-        (string)
-        (string)
-        (string)
-        (string)
-        (string)))))
+  (return_statement
+    (expression_list
+      (string)
+      (string)
+      (string)
+      (string)
+      (string)
+      (string)
+      (string))))
 
 ================================================================================
 Long strings
@@ -115,13 +112,12 @@ a string with an undetectable
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (string)
-        (string)
-        (string)
-        (string)))))
+  (return_statement
+    (expression_list
+      (string)
+      (string)
+      (string)
+      (string))))
 
 ================================================================================
 Unary expressions
@@ -132,16 +128,15 @@ return not (-#{} < 0)
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (unary_expression
-          argument: (parenthesized_expression
-            (binary_expression
-              left: (unary_expression
-                argument: (unary_expression
-                  argument: (table)))
-              right: (number))))))))
+  (return_statement
+    (expression_list
+      (unary_expression
+        argument: (parenthesized_expression
+          (binary_expression
+            left: (unary_expression
+              argument: (unary_expression
+                argument: (table)))
+            right: (number)))))))
 
 ================================================================================
 Binary expressions
@@ -156,33 +151,32 @@ true and 1 or 0
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (binary_expression
-          left: (parenthesized_expression
-            (binary_expression
-              left: (binary_expression
-                left: (number)
-                right: (number))
-              right: (binary_expression
-                left: (number)
-                right: (number))))
-          right: (number))
-        (binary_expression
-          left: (variable
-            table: (variable
-              name: (identifier))
-            field: (identifier))
-          right: (parenthesized_expression
-            (binary_expression
+  (return_statement
+    (expression_list
+      (binary_expression
+        left: (parenthesized_expression
+          (binary_expression
+            left: (binary_expression
+              left: (number)
+              right: (number))
+            right: (binary_expression
               left: (number)
               right: (number))))
-        (binary_expression
-          left: (binary_expression
-            left: (boolean)
-            right: (number))
-          right: (number))))))
+        right: (number))
+      (binary_expression
+        left: (variable
+          table: (variable
+            name: (identifier))
+          field: (identifier))
+        right: (parenthesized_expression
+          (binary_expression
+            left: (number)
+            right: (number))))
+      (binary_expression
+        left: (binary_expression
+          left: (boolean)
+          right: (number))
+        right: (number)))))
 
 ================================================================================
 Tables
@@ -202,42 +196,41 @@ return {
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (table
-          (field_list
-            (field
-              key: (variable
+  (return_statement
+    (expression_list
+      (table
+        (field_list
+          (field
+            key: (variable
+              table: (variable
+                name: (identifier))
+              field: (identifier))
+            value: (variable
+              name: (identifier)))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            key: (identifier)
+            value: (number))
+          (field
+            value: (function_call
+              (variable
                 table: (variable
                   name: (identifier))
                 field: (identifier))
-              value: (variable
-                name: (identifier)))
-            (field
-              value: (string))
-            (field
-              value: (string))
-            (field
-              key: (identifier)
-              value: (number))
-            (field
-              value: (function_call
-                (variable
-                  table: (variable
-                    name: (identifier))
-                  field: (identifier))
-                arguments: (argument_list
-                  (expression_list
-                    (variable
-                      name: (identifier))))))
-            (field
-              key: (number)
-              value: (number))
-            (field
-              value: (table))
-            (field
-              value: (number))))))))
+              arguments: (argument_list
+                (expression_list
+                  (variable
+                    name: (identifier))))))
+          (field
+            key: (number)
+            value: (number))
+          (field
+            value: (table))
+          (field
+            value: (number)))))))
 
 ================================================================================
 Function definitions
@@ -258,30 +251,29 @@ end
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (function_definition)
-        (function_definition
-          parameters: (parameter_list
-            (vararg_expression))
-          body: (block
-            (return_statement
-              (expression_list
-                (vararg_expression)))))
-        (function_definition
-          parameters: (parameter_list
-            name: (identifier)
-            (vararg_expression))
-          body: (block
-            (return_statement
-              (expression_list
-                (function_call
-                  (variable
-                    name: (identifier))
-                  arguments: (argument_list
-                    (expression_list
-                      (vararg_expression))))))))))))
+  (return_statement
+    (expression_list
+      (function_definition)
+      (function_definition
+        parameters: (parameter_list
+          (vararg_expression))
+        body: (block
+          (return_statement
+            (expression_list
+              (vararg_expression)))))
+      (function_definition
+        parameters: (parameter_list
+          name: (identifier)
+          (vararg_expression))
+        body: (block
+          (return_statement
+            (expression_list
+              (function_call
+                (variable
+                  name: (identifier))
+                arguments: (argument_list
+                  (expression_list
+                    (vararg_expression)))))))))))
 
 ================================================================================
 Variable access
@@ -296,21 +288,20 @@ math["pi"]
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (number))
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (identifier))
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (string))))))
+  (return_statement
+    (expression_list
+      (variable
+        table: (variable
+          name: (identifier))
+        field: (number))
+      (variable
+        table: (variable
+          name: (identifier))
+        field: (identifier))
+      (variable
+        table: (variable
+          name: (identifier))
+        field: (string)))))
 
 ================================================================================
 Function calls
@@ -324,16 +315,15 @@ string.char()
 ---
 
 (chunk
-  (block
-    (return_statement
-      (expression_list
-        (function_call
-          (variable
+  (return_statement
+    (expression_list
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list))
+      (function_call
+        (variable
+          table: (variable
             name: (identifier))
-          arguments: (argument_list))
-        (function_call
-          (variable
-            table: (variable
-              name: (identifier))
-            field: (identifier))
-          arguments: (argument_list))))))
+          field: (identifier))
+        arguments: (argument_list)))))
