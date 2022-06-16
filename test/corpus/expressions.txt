@@ -17,9 +17,9 @@ return (undefined_var == nil) == true and true or false
                 left: (variable
                   name: (identifier))
                 right: (nil)))
-            right: (boolean))
-          right: (boolean))
-        right: (boolean)))))
+            right: (true))
+          right: (true))
+        right: (false)))))
 
 ================================================================================
 Numbers
@@ -174,7 +174,7 @@ true and 1 or 0
             right: (number))))
       (binary_expression
         left: (binary_expression
-          left: (boolean)
+          left: (true)
           right: (number))
         right: (number)))))
 

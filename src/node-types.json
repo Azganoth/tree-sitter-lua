@@ -12,7 +12,7 @@
         "named": true
       },
       {
-        "type": "boolean",
+        "type": "false",
         "named": true
       },
       {
@@ -33,6 +33,10 @@
       },
       {
         "type": "table",
+        "named": true
+      },
+      {
+        "type": "true",
         "named": true
       },
       {
@@ -302,11 +306,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "boolean",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "chunk",
@@ -1212,7 +1211,7 @@
   },
   {
     "type": "false",
-    "named": false
+    "named": true
   },
   {
     "type": "for",
@@ -1276,7 +1275,7 @@
   },
   {
     "type": "true",
-    "named": false
+    "named": true
   },
   {
     "type": "until",

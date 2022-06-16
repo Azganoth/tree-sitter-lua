@@ -177,7 +177,8 @@ module.exports = grammar({
     _expression: ($) =>
       choice(
         $.nil,
-        $.boolean,
+        $.false,
+        $.true,
         $.number,
         $.string,
         $.unary_expression,
@@ -329,7 +330,9 @@ module.exports = grammar({
         ),
       ),
 
-    boolean: () => choice("false", "true"),
+    true: () => "true",
+
+    false: () => "false",
 
     nil: () => "nil",
 

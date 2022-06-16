@@ -401,7 +401,7 @@ end
     (expression_list
       value: (number)))
   (while_statement
-    condition: (boolean)
+    condition: (true)
     body: (block
       (variable_assignment
         (variable_list
