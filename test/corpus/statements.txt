@@ -1,475 +1,11 @@
 ================================================================================
-Scoped blocks
+variable assignments
 ================================================================================
 
-x = 0
-do
-  local x = 1
-  do
-    local x = 2
-  end
-end
+x, y = 5.25, -3.5
+r, g, b, a = 0xf2, 0x3b, 0x2c
 
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (do_statement
-    body: (block
-      (local_variable_declaration
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (number)))
-      (do_statement
-        body: (block
-          (local_variable_declaration
-            (variable_list
-              (variable
-                name: (identifier)))
-            (expression_list
-              value: (number))))))))
-
-================================================================================
-If conditionals
-================================================================================
-
-n = 10
-
-if n == 10 then
-  print("Value is 10")
-end
-
-if n > 10 then
-  print("Bigger than 10")
-else
-  print("Smaller than 11")
-end
-
-if n > 15 then
-  print("Bigger than 15")
-elseif n < 5 then
-  print("Smaller than 5")
-else
-  print("Between 5 and 15")
-end
-
-if n > 10 then end
-if n > 10 then else end
-if n > 15 then elseif n < 5 then end
-if n > 15 then elseif n < 5 then elseif n == 10 then end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list
-          (expression_list
-            (string))))))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list
-          (expression_list
-            (string)))))
-    alternative: (else_clause
-      body: (block
-        (function_call
-          (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (string)))))))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list
-          (expression_list
-            (string)))))
-    alternative: (elseif_clause
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))
-      consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (string))))))
-    alternative: (else_clause
-      body: (block
-        (function_call
-          (variable
-            name: (identifier))
-          arguments: (argument_list
-            (expression_list
-              (string)))))))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number)))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    alternative: (else_clause))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    alternative: (elseif_clause
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    alternative: (elseif_clause
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number)))
-    alternative: (elseif_clause
-      condition: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number)))))
-
-================================================================================
-While loop
-================================================================================
-
-n = 5
-while n < 10 do
-  n = n + 1
-end
-
-while n ~= 10 do end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (while_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    body: (block
-      (variable_assignment
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (number))))))
-  (while_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))))
-
-================================================================================
-Repeat loop
-================================================================================
-
-n = 0
-repeat
-  n = n + 1
-until n < 10
-
-repeat until n ~= 10
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (repeat_statement
-    body: (block
-      (variable_assignment
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (number)))))
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number)))
-  (repeat_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))))
-
-================================================================================
-Numeric for loop
-================================================================================
-
-n = 0
-for i = 0, 10, 1 do
-  n = i
-end
-
-for i = 0, 10 do end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (for_numeric_statement
-    name: (identifier)
-    start: (number)
-    end: (number)
-    step: (number)
-    body: (block
-      (variable_assignment
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (variable
-            name: (identifier))))))
-  (for_numeric_statement
-    name: (identifier)
-    start: (number)
-    end: (number)))
-
-================================================================================
-Generic for loop
-================================================================================
-
-t = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-n = 0
-for i, v in ipairs(t) do
-  n = n + 1
-end
-
-for i in ipairs(t) do end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (table
-        (field_list
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))
-          (field
-            value: (number))))))
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (for_generic_statement
-    left: (variable_list
-      name: (identifier)
-      name: (identifier))
-    right: (expression_list
-      value: (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list
-          (expression_list
-            (variable
-              name: (identifier))))))
-    body: (block
-      (variable_assignment
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (number))))))
-  (for_generic_statement
-    left: (variable_list
-      name: (identifier))
-    right: (expression_list
-      value: (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list
-          (expression_list
-            (variable
-              name: (identifier))))))))
-
-================================================================================
-Loop break
-================================================================================
-
-n = 5
-while true do
-  n = n + 1
-  if n == 10 then
-    break
-  end
-end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (while_statement
-    condition: (true)
-    body: (block
-      (variable_assignment
-        (variable_list
-          (variable
-            name: (identifier)))
-        (expression_list
-          value: (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (number))))
-      (if_statement
-        condition: (binary_expression
-          left: (variable
-            name: (identifier))
-          right: (number))
-        consequence: (block
-          (break_statement))))))
-
-================================================================================
-Labels
-================================================================================
-
-n = 5
-
-:: increment_n ::
-n = n + 1
-
-if n < 10 then
-  goto increment_n
-end
-
----
-
-(chunk
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (number)))
-  (label_statement
-    name: (identifier))
-  (variable_assignment
-    (variable_list
-      (variable
-        name: (identifier)))
-    (expression_list
-      value: (binary_expression
-        left: (variable
-          name: (identifier))
-        right: (number))))
-  (if_statement
-    condition: (binary_expression
-      left: (variable
-        name: (identifier))
-      right: (number))
-    consequence: (block
-      (goto_statement
-        name: (identifier)))))
-
-================================================================================
-Variable assignments
-================================================================================
-
-r, g, b = nil, 0xff
-x, y, z = 0.25, 0.4, 0.15
-
----
+--------------------------------------------------------------------------------
 
 (chunk
   (variable_assignment
@@ -477,14 +13,14 @@ x, y, z = 0.25, 0.4, 0.15
       (variable
         name: (identifier))
       (variable
-        name: (identifier))
-      (variable
         name: (identifier)))
     (expression_list
-      value: (nil)
+      value: (number)
       value: (number)))
   (variable_assignment
     (variable_list
+      (variable
+        name: (identifier))
       (variable
         name: (identifier))
       (variable
@@ -497,34 +33,29 @@ x, y, z = 0.25, 0.4, 0.15
       value: (number))))
 
 ================================================================================
-Scoped variable declarations
+local variable declarations
 ================================================================================
 
-local r
-local b<const>, g = 0xff
-local x, y, z<const> = 0.25, 0.4, 0.15
+local pi<const> = math.pi
 
----
+local circumference, nothing<close> = 2 * pi * 24
+
+--------------------------------------------------------------------------------
 
 (chunk
   (local_variable_declaration
     (variable_list
       (variable
-        name: (identifier))))
-  (local_variable_declaration
-    (variable_list
-      (variable
         name: (identifier)
         (attribute
-          name: (identifier)))
-      (variable
-        name: (identifier)))
+          name: (identifier))))
     (expression_list
-      value: (number)))
+      value: (variable
+        table: (variable
+          name: (identifier))
+        field: (identifier))))
   (local_variable_declaration
     (variable_list
-      (variable
-        name: (identifier))
       (variable
         name: (identifier))
       (variable
@@ -532,120 +63,22 @@ local x, y, z<const> = 0.25, 0.4, 0.15
         (attribute
           name: (identifier))))
     (expression_list
-      value: (number)
-      value: (number)
-      value: (number))))
+      value: (binary_expression
+        left: (binary_expression
+          left: (number)
+          right: (variable
+            name: (identifier)))
+        right: (number)))))
 
 ================================================================================
-Function definitions (syntactic sugar)
-================================================================================
-
-function noop() end
-
-function _G.sum(a, b)
-  return a + b
-end
-
-function _G:varargs(...)
-  return self.sum(2, 2)
-end
-
----
-
-(chunk
-  (function_definition_statement
-    name: (function_identifier
-      (identifier)))
-  (function_definition_statement
-    name: (function_identifier
-      (identifier)
-      (identifier))
-    parameters: (parameter_list
-      name: (identifier)
-      name: (identifier))
-    body: (block
-      (return_statement
-        (expression_list
-          (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (variable
-              name: (identifier)))))))
-  (function_definition_statement
-    name: (function_identifier
-      (identifier)
-      method: (identifier))
-    parameters: (parameter_list
-      (vararg_expression))
-    body: (block
-      (return_statement
-        (expression_list
-          (function_call
-            (variable
-              table: (variable
-                name: (identifier))
-              field: (identifier))
-            arguments: (argument_list
-              (expression_list
-                (number)
-                (number)))))))))
-
-================================================================================
-Scoped function definitions (syntactic sugar)
-================================================================================
-
-local function noop() end
-
-local function sum(a, b)
-  return a + b
-end
-
-local function varargs(...)
-  return sum(2, 2)
-end
-
----
-
-(chunk
-  (local_function_definition_statement
-    name: (identifier))
-  (local_function_definition_statement
-    name: (identifier)
-    parameters: (parameter_list
-      name: (identifier)
-      name: (identifier))
-    body: (block
-      (return_statement
-        (expression_list
-          (binary_expression
-            left: (variable
-              name: (identifier))
-            right: (variable
-              name: (identifier)))))))
-  (local_function_definition_statement
-    name: (identifier)
-    parameters: (parameter_list
-      (vararg_expression))
-    body: (block
-      (return_statement
-        (expression_list
-          (function_call
-            (variable
-              name: (identifier))
-            arguments: (argument_list
-              (expression_list
-                (number)
-                (number)))))))))
-
-================================================================================
-Function calls (as statement)
+function calls (as statement)
 ================================================================================
 
 print()
 print("hi!")
 print(math.random())
 
----
+--------------------------------------------------------------------------------
 
 (chunk
   (function_call
@@ -669,3 +102,654 @@ print(math.random())
               name: (identifier))
             field: (identifier))
           arguments: (argument_list))))))
+
+================================================================================
+labels
+================================================================================
+
+goto next_line
+:: next_line ::
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (goto_statement
+    name: (identifier))
+  (label_statement
+    name: (identifier)))
+
+================================================================================
+simple conditional structures
+================================================================================
+
+if true then end
+if false then else end
+if false then elseif true then end
+if false then elseif false then elseif false then elseif true then else end
+
+temperature = math.random(0, 50)
+if temperature > 25 then
+  print"is hot"
+end
+
+n = math.random(0, 100)
+if n % 2 == 0 then
+  print"is even"
+else
+  print"is odd"
+end
+
+weathers = {"rain", "windy"}
+weather = weathers[math.random(2)]
+if weather == "rain" then
+  print"just stay home, it's raining"
+elseif weather == "windy" then
+  print"just stay home, it's too windy"
+end
+
+average_note = math.random(0, 10)
+if average_note >= 7.5 then
+  print"A"
+elseif average_note >= 6 then
+  print"B"
+elseif average_note >= 4 then
+  print"C"
+elseif average_note >= 2 then
+  print"D"
+else
+  print"E"
+end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (if_statement
+    condition: (true))
+  (if_statement
+    condition: (false)
+    alternative: (else_clause))
+  (if_statement
+    condition: (false)
+    alternative: (elseif_clause
+      condition: (true)))
+  (if_statement
+    condition: (false)
+    alternative: (elseif_clause
+      condition: (false))
+    alternative: (elseif_clause
+      condition: (false))
+    alternative: (elseif_clause
+      condition: (true))
+    alternative: (else_clause))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (function_call
+        (variable
+          table: (variable
+            name: (identifier))
+          field: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (number)
+            (number))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (string)))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (function_call
+        (variable
+          table: (variable
+            name: (identifier))
+          field: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (number)
+            (number))))))
+  (if_statement
+    condition: (binary_expression
+      left: (binary_expression
+        left: (variable
+          name: (identifier))
+        right: (number))
+      right: (number))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (string))))
+    alternative: (else_clause
+      body: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (table
+        (field_list
+          (field
+            value: (string))
+          (field
+            value: (string))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (variable
+        table: (variable
+          name: (identifier))
+        field: (function_call
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier))
+          arguments: (argument_list
+            (expression_list
+              (number)))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (string))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (string))))
+    alternative: (elseif_clause
+      condition: (binary_expression
+        left: (variable
+          name: (identifier))
+        right: (string))
+      consequence: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (function_call
+        (variable
+          table: (variable
+            name: (identifier))
+          field: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (number)
+            (number))))))
+  (if_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    consequence: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (string))))
+    alternative: (elseif_clause
+      condition: (binary_expression
+        left: (variable
+          name: (identifier))
+        right: (number))
+      consequence: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string)))))
+    alternative: (elseif_clause
+      condition: (binary_expression
+        left: (variable
+          name: (identifier))
+        right: (number))
+      consequence: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string)))))
+    alternative: (elseif_clause
+      condition: (binary_expression
+        left: (variable
+          name: (identifier))
+        right: (number))
+      consequence: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string)))))
+    alternative: (else_clause
+      body: (block
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string)))))))
+
+================================================================================
+conditional loop structures
+================================================================================
+
+while false do end
+repeat until true
+
+ten = 10
+while ten > 0 do
+  ten = ten - 1
+end
+
+repeat
+  ten = ten + 1
+until ten < 10
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (while_statement
+    condition: (false))
+  (repeat_statement
+    condition: (true))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (while_statement
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number))))))
+  (repeat_statement
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number)))))
+    condition: (binary_expression
+      left: (variable
+        name: (identifier))
+      right: (number))))
+
+================================================================================
+numeric for loops
+================================================================================
+
+for i = 0, 0 do end
+for i = 0, 0, 1 do end
+
+zero = 0
+for i = zero, 10 do
+  zero = i
+end
+
+for i = zero, 0, -1 do
+  zero = i
+end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (for_numeric_statement
+    name: (identifier)
+    start: (number)
+    end: (number))
+  (for_numeric_statement
+    name: (identifier)
+    start: (number)
+    end: (number)
+    step: (number))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (for_numeric_statement
+    name: (identifier)
+    start: (variable
+      name: (identifier))
+    end: (number)
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (variable
+            name: (identifier))))))
+  (for_numeric_statement
+    name: (identifier)
+    start: (variable
+      name: (identifier))
+    end: (number)
+    step: (number)
+    body: (block
+      (variable_assignment
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (variable
+            name: (identifier)))))))
+
+================================================================================
+generic for loops
+================================================================================
+
+for i, v in ipairs({}) do end
+
+weathers = {"rain", "sleet", "snow", "freezing fog", "sunny", "cloudy", "ice pellets", "windy"}
+for _, weather in ipairs(weathers) do
+  print(weather)
+end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (for_generic_statement
+    left: (variable_list
+      name: (identifier)
+      name: (identifier))
+    right: (expression_list
+      value: (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (table))))))
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (table
+        (field_list
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))
+          (field
+            value: (string))))))
+  (for_generic_statement
+    left: (variable_list
+      name: (identifier)
+      name: (identifier))
+    right: (expression_list
+      value: (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (variable
+              name: (identifier))))))
+    body: (block
+      (function_call
+        (variable
+          name: (identifier))
+        arguments: (argument_list
+          (expression_list
+            (variable
+              name: (identifier))))))))
+
+================================================================================
+scope blocks
+================================================================================
+
+do end
+
+scope_level = 0
+do
+  local scope_level = scope_level + 1
+  do
+    local scope_level = scope_level + 1
+  end
+end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (do_statement)
+  (variable_assignment
+    (variable_list
+      (variable
+        name: (identifier)))
+    (expression_list
+      value: (number)))
+  (do_statement
+    body: (block
+      (local_variable_declaration
+        (variable_list
+          (variable
+            name: (identifier)))
+        (expression_list
+          value: (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (number))))
+      (do_statement
+        body: (block
+          (local_variable_declaration
+            (variable_list
+              (variable
+                name: (identifier)))
+            (expression_list
+              value: (binary_expression
+                left: (variable
+                  name: (identifier))
+                right: (number)))))))))
+
+================================================================================
+function definitions (syntactic sugar)
+================================================================================
+
+function noop() end
+
+function is_even(x) return x % 2 == 0 end
+function sum(a, b) return a + b end
+
+function make_list(...) return {...} end
+function apply(func, ...) return func(...) end
+
+function _G.noop() end
+function _G._G.noop() end
+function _G._G:noop() end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier))
+    parameters: (parameter_list
+      name: (identifier))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (binary_expression
+              left: (variable
+                name: (identifier))
+              right: (number))
+            right: (number))))))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier))
+    parameters: (parameter_list
+      name: (identifier)
+      name: (identifier))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (variable
+              name: (identifier)))))))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier))
+    parameters: (parameter_list
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (table
+            (field_list
+              (field
+                value: (vararg_expression))))))))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier))
+    parameters: (parameter_list
+      name: (identifier)
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (function_call
+            (variable
+              name: (identifier))
+            arguments: (argument_list
+              (expression_list
+                (vararg_expression))))))))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)
+      (identifier)))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (function_definition_statement
+    name: (function_identifier
+      (identifier)
+      (identifier)
+      method: (identifier))))
+
+================================================================================
+local function definitions (syntactic sugar)
+================================================================================
+
+local function _noop() end
+
+local function _is_even(x) return x % 2 == 0 end
+local function _sum(a, b) return a + b end
+
+local function _make_list(...) return {...} end
+local function _apply(func, ...) return func(...) end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (local_function_definition_statement
+    name: (identifier))
+  (local_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      name: (identifier))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (binary_expression
+              left: (variable
+                name: (identifier))
+              right: (number))
+            right: (number))))))
+  (local_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      name: (identifier)
+      name: (identifier))
+    body: (block
+      (return_statement
+        (expression_list
+          (binary_expression
+            left: (variable
+              name: (identifier))
+            right: (variable
+              name: (identifier)))))))
+  (local_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (table
+            (field_list
+              (field
+                value: (vararg_expression))))))))
+  (local_function_definition_statement
+    name: (identifier)
+    parameters: (parameter_list
+      name: (identifier)
+      (vararg_expression))
+    body: (block
+      (return_statement
+        (expression_list
+          (function_call
+            (variable
+              name: (identifier))
+            arguments: (argument_list
+              (expression_list
+                (vararg_expression)))))))))

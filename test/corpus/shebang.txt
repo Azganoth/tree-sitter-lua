@@ -1,20 +1,10 @@
 ================================================================================
-Shebang
+shebang
 ================================================================================
 
 #!/usr/local/bin/lua
 
--- a comment
-
-print"a string"
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (shebang)
-  (comment)
-  (function_call
-    (variable
-      name: (identifier))
-    arguments: (argument_list
-      (string))))
+  (shebang))

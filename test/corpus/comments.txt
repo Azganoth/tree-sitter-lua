@@ -1,58 +1,34 @@
 ================================================================================
-Short comments
+short comments
 ================================================================================
 
 --
 -- a comment
 
--- [[
--- [=[
---[
---[==
---[ [
---[ ===[ ]==== ]
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
   (comment)
   (comment))
 
 ================================================================================
-Long comments
+long comments
 ================================================================================
 
+--[[]]
 --[[
 a comment
 ]]
-
---[[
-a comment
---]]
-
 --[=[
-a comment
-] =]]=]
+Copyright (c) 2022 Ademir José Ferreira Júnior
 
---[==[
-a comment
-]= ]]==]
+This source code is licensed under the MIT license found
+in the LICENSE file in the root directory of this project.
+]=]
 
---[====[
-a comment
-] ====]]====]
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (comment)
-  (comment)
   (comment)
   (comment)
   (comment))

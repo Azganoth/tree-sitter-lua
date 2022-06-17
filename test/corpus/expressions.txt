@@ -1,329 +1,658 @@
 ================================================================================
-Booleans and nil
+booleans and nil
 ================================================================================
 
-return (undefined_var == nil) == true and true or false
+print(nil)
+print(false)
+print(true)
 
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (binary_expression
-        left: (binary_expression
-          left: (binary_expression
-            left: (parenthesized_expression
-              (binary_expression
-                left: (variable
-                  name: (identifier))
-                right: (nil)))
-            right: (true))
-          right: (true))
-        right: (false)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (nil))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (false))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (true)))))
 
 ================================================================================
-Numbers
+integer decimal numbers
 ================================================================================
 
-return
+print(0)
+print(99)
+print(-7)
+print(-105)
 
-3,
--3.,
-3.141593,
-314.1593e-2,
-.3141593E1,
-
-0xff,
--0x.BEBADA,
-0x0.1E,
-0xA23p-4,
-0X1.921FB54442D18P+1
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number)))))
 
 ================================================================================
-Short strings
+integer hexadecimal numbers
 ================================================================================
 
-return
+print(0x0)
+print(0xff)
+print(-0xf)
+print(-0xfab)
 
-'',
-"",
-'a single-quoted (\') string',
-"a double-quoted (\") string",
-"a string with an undetectable -- comment inside it",
-"a string with an undetectable --[[ comment ]] inside it",
-"a string with an undetectable --[==[ comment ]==] inside it"
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number)))))
 
 ================================================================================
-Long strings
+float decimal numbers
 ================================================================================
 
-return
+print(3.1416)
+print(314.16e-2)
+print(31416.e-4)
+print(.31416E1)
 
-[[
-a string
-]],
-
-[=[
-a string with an undetectable
--- comment inside it
-] =]]=],
-
-[==[
-a string with an undetectable
---[[ comment ]] and
-[[ string ]] inside it
-]= ]]==],
-
-[====[
-a string with an undetectable
---[==[ comment ]==] and
-[[ string ]] inside it
-] ====]]====]
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (string)
-      (string)
-      (string)
-      (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number)))))
 
 ================================================================================
-Unary expressions
+float hexadecimal numbers
 ================================================================================
 
-return not (-#{} < 0)
+print(0x0.1E)
+print(0xBEBADA.)
+print(0xA23p-4)
+print(0X1.921FB54442D18P+1)
 
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (unary_expression
-        argument: (parenthesized_expression
-          (binary_expression
-            left: (unary_expression
-              argument: (unary_expression
-                argument: (table)))
-            right: (number)))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (number)))))
 
 ================================================================================
-Binary expressions
+short strings
 ================================================================================
 
-return
+print('')
+print("")
+print('"You\'re a wizard, Harry!"')
+print("\"I'm a what?\"")
+print('"Did you put your name into the Goblet of Fire, Harry?" -- Dumbledore asked calmly.')
 
-(8^2 + 6^2)^.5,
-math.pi * (8 / 2),
-true and 1 or 0
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (binary_expression
-        left: (parenthesized_expression
-          (binary_expression
-            left: (binary_expression
-              left: (number)
-              right: (number))
-            right: (binary_expression
-              left: (number)
-              right: (number))))
-        right: (number))
-      (binary_expression
-        left: (variable
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string)))))
+
+================================================================================
+long strings
+================================================================================
+
+print([[
+Does a thing.
+
+USAGE:
+thing [FLAGS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+]])
+print([=[
+[[Fruits]]
+- Banana
+- Orange
+- Apple
+]=])
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (string)))))
+
+================================================================================
+function definitions
+================================================================================
+
+print(function() end)
+
+print(function(x) return x % 2 == 0 end)
+print(function(a, b) return a + b end)
+
+print(function(...) return {...} end)
+print(function(func, ...) return func(...) end)
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_definition))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_definition
+          parameters: (parameter_list
+            name: (identifier))
+          body: (block
+            (return_statement
+              (expression_list
+                (binary_expression
+                  left: (binary_expression
+                    left: (variable
+                      name: (identifier))
+                    right: (number))
+                  right: (number)))))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_definition
+          parameters: (parameter_list
+            name: (identifier)
+            name: (identifier))
+          body: (block
+            (return_statement
+              (expression_list
+                (binary_expression
+                  left: (variable
+                    name: (identifier))
+                  right: (variable
+                    name: (identifier))))))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_definition
+          parameters: (parameter_list
+            (vararg_expression))
+          body: (block
+            (return_statement
+              (expression_list
+                (table
+                  (field_list
+                    (field
+                      value: (vararg_expression)))))))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_definition
+          parameters: (parameter_list
+            name: (identifier)
+            (vararg_expression))
+          body: (block
+            (return_statement
+              (expression_list
+                (function_call
+                  (variable
+                    name: (identifier))
+                  arguments: (argument_list
+                    (expression_list
+                      (vararg_expression))))))))))))
+
+================================================================================
+variable accesses
+================================================================================
+
+print(_VERSION)
+print(_G._VERSION)
+print(_G["_VERSION"])
+print(_G._G._G._VERSION)
+print(_G["_G"]["_G"]["_VERSION"])
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
+          name: (identifier)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
           table: (variable
             name: (identifier))
-          field: (identifier))
-        right: (parenthesized_expression
-          (binary_expression
-            left: (number)
-            right: (number))))
-      (binary_expression
-        left: (binary_expression
-          left: (true)
-          right: (number))
-        right: (number)))))
-
-================================================================================
-Tables
-================================================================================
-
-return {
-  [math.pi] = _VERSION;
-  "x",
-  "y";
-  x = 1,
-  string.len(_VERSION),
-  [30] = 23;
-  {};
-  45
-}
-
----
-
-(chunk
-  (return_statement
-    (expression_list
-      (table
-        (field_list
-          (field
-            key: (variable
+          field: (identifier)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
+          table: (variable
+            name: (identifier))
+          field: (string)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
+          table: (variable
+            table: (variable
               table: (variable
                 name: (identifier))
               field: (identifier))
-            value: (variable
-              name: (identifier)))
-          (field
-            value: (string))
-          (field
-            value: (string))
-          (field
-            key: (identifier)
-            value: (number))
-          (field
-            value: (function_call
-              (variable
-                table: (variable
-                  name: (identifier))
-                field: (identifier))
-              arguments: (argument_list
-                (expression_list
-                  (variable
-                    name: (identifier))))))
-          (field
-            key: (number)
-            value: (number))
-          (field
-            value: (table))
-          (field
-            value: (number)))))))
+            field: (identifier))
+          field: (identifier)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
+          table: (variable
+            table: (variable
+              table: (variable
+                name: (identifier))
+              field: (string))
+            field: (string))
+          field: (string))))))
 
 ================================================================================
-Function definitions
+function calls
 ================================================================================
 
-return
+print(type(_G))
+print(type'')
+print(type"")
+print(type[[]])
+print(type{})
 
-function() end,
+print(io.output())
+print(io.output():read())
 
-function(...)
-  return ...
-end,
-
-function(f, ...)
-  return f(...)
-end
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (function_definition)
-      (function_definition
-        parameters: (parameter_list
-          (vararg_expression))
-        body: (block
-          (return_statement
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
             (expression_list
-              (vararg_expression)))))
-      (function_definition
-        parameters: (parameter_list
-          name: (identifier)
-          (vararg_expression))
-        body: (block
-          (return_statement
-            (expression_list
-              (function_call
+              (variable
+                name: (identifier))))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (string))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            name: (identifier))
+          arguments: (argument_list
+            (table))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier))
+          arguments: (argument_list)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (function_call
+          (function_call
+            (variable
+              table: (variable
+                name: (identifier))
+              field: (identifier))
+            arguments: (argument_list))
+          method: (identifier)
+          arguments: (argument_list))))))
+
+================================================================================
+tables
+================================================================================
+
+print({
+  "x",
+  "y";
+  {},
+  rawlen"four"
+})
+print({
+  [54] = _VERSION,
+  ["version"] = _VERSION,
+  [_VERSION] = 54,
+  _VERSION = 54,
+})
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (table
+          (field_list
+            (field
+              value: (string))
+            (field
+              value: (string))
+            (field
+              value: (table))
+            (field
+              value: (function_call
                 (variable
                   name: (identifier))
                 arguments: (argument_list
-                  (expression_list
-                    (vararg_expression)))))))))))
+                  (string)))))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (table
+          (field_list
+            (field
+              key: (number)
+              value: (variable
+                name: (identifier)))
+            (field
+              key: (string)
+              value: (variable
+                name: (identifier)))
+            (field
+              key: (variable
+                name: (identifier))
+              value: (number))
+            (field
+              key: (identifier)
+              value: (number))))))))
 
 ================================================================================
-Variable access
+unary expressions
 ================================================================================
 
-return
+print(not true)
+print(#"four")
+print(-#"-five")
+print(~0)
 
-_G[1],
-math.pi,
-math["pi"]
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (variable
-        table: (variable
-          name: (identifier))
-        field: (number))
-      (variable
-        table: (variable
-          name: (identifier))
-        field: (identifier))
-      (variable
-        table: (variable
-          name: (identifier))
-        field: (string)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (unary_expression
+          argument: (true)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (unary_expression
+          argument: (string)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (unary_expression
+          argument: (unary_expression
+            argument: (string))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (unary_expression
+          argument: (number))))))
 
 ================================================================================
-Function calls
+binary expressions
 ================================================================================
 
-return
+print(1*2 + 4/2)
+print(5^2 % 5)
+print(5 - -5 == 0 and 1 or 0)
 
-print(),
-string.char()
-
----
+--------------------------------------------------------------------------------
 
 (chunk
-  (return_statement
-    (expression_list
-      (function_call
-        (variable
-          name: (identifier))
-        arguments: (argument_list))
-      (function_call
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (identifier))
-        arguments: (argument_list)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (binary_expression
+          left: (binary_expression
+            left: (number)
+            right: (number))
+          right: (binary_expression
+            left: (number)
+            right: (number))))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (binary_expression
+          left: (binary_expression
+            left: (number)
+            right: (number))
+          right: (number)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (binary_expression
+          left: (binary_expression
+            left: (binary_expression
+              left: (binary_expression
+                left: (number)
+                right: (number))
+              right: (number))
+            right: (number))
+          right: (number))))))
