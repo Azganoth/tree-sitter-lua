@@ -21,7 +21,7 @@ end
       value: (number)))
   (do_statement
     body: (block
-      (scoped_variable_declaration
+      (local_variable_declaration
         (variable_list
           (variable
             name: (identifier)))
@@ -29,7 +29,7 @@ end
           value: (number)))
       (do_statement
         body: (block
-          (scoped_variable_declaration
+          (local_variable_declaration
             (variable_list
               (variable
                 name: (identifier)))
@@ -507,11 +507,11 @@ local x, y, z<const> = 0.25, 0.4, 0.15
 ---
 
 (chunk
-  (scoped_variable_declaration
+  (local_variable_declaration
     (variable_list
       (variable
         name: (identifier))))
-  (scoped_variable_declaration
+  (local_variable_declaration
     (variable_list
       (variable
         name: (identifier)
@@ -521,7 +521,7 @@ local x, y, z<const> = 0.25, 0.4, 0.15
         name: (identifier)))
     (expression_list
       value: (number)))
-  (scoped_variable_declaration
+  (local_variable_declaration
     (variable_list
       (variable
         name: (identifier))
@@ -607,9 +607,9 @@ end
 ---
 
 (chunk
-  (scoped_function_definition_statement
+  (local_function_definition_statement
     name: (identifier))
-  (scoped_function_definition_statement
+  (local_function_definition_statement
     name: (identifier)
     parameters: (parameter_list
       name: (identifier)
@@ -622,7 +622,7 @@ end
               name: (identifier))
             right: (variable
               name: (identifier)))))))
-  (scoped_function_definition_statement
+  (local_function_definition_statement
     name: (identifier)
     parameters: (parameter_list
       (vararg_expression))

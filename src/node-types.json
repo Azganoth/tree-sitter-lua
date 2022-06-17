@@ -112,15 +112,15 @@
         "named": true
       },
       {
+        "type": "local_function_definition_statement",
+        "named": true
+      },
+      {
+        "type": "local_variable_declaration",
+        "named": true
+      },
+      {
         "type": "repeat_statement",
-        "named": true
-      },
-      {
-        "type": "scoped_function_definition_statement",
-        "named": true
-      },
-      {
-        "type": "scoped_variable_declaration",
         "named": true
       },
       {
@@ -758,6 +758,61 @@
     }
   },
   {
+    "type": "local_function_definition_statement",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "local_variable_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression_list",
+          "named": true
+        },
+        {
+          "type": "variable_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "parameter_list",
     "named": true,
     "fields": {
@@ -838,61 +893,6 @@
         },
         {
           "type": "expression_list",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "scoped_function_definition_statement",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "parameter_list",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "scoped_variable_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "variable_list",
           "named": true
         }
       ]

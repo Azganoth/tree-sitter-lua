@@ -58,7 +58,7 @@ module.exports = grammar({
       choice(
         $.empty_statement,
         $.variable_assignment,
-        $.scoped_variable_declaration,
+        $.local_variable_declaration,
         // conflict: $.statement and $.prefix_expression
         prec(1, $.function_call),
         $.label_statement,
@@ -71,10 +71,10 @@ module.exports = grammar({
         $.for_numeric_statement,
         $.for_generic_statement,
         $.function_definition_statement,
-        $.scoped_function_definition_statement,
+        $.local_function_definition_statement,
       ),
 
-    scoped_function_definition_statement: ($) =>
+    local_function_definition_statement: ($) =>
       seq("local", "function", field("name", $.identifier), $._function_body),
 
     function_definition_statement: ($) =>
@@ -155,15 +155,15 @@ module.exports = grammar({
     goto_statement: ($) => seq("goto", field("name", $.identifier)),
     label_statement: ($) => seq("::", field("name", $.identifier), "::"),
 
-    scoped_variable_declaration: ($) =>
+    local_variable_declaration: ($) =>
       seq(
         "local",
-        alias($._scoped_variable_list, $.variable_list),
+        alias($._local_variable_list, $.variable_list),
         optional(seq("=", alias($._value_list, $.expression_list))),
       ),
-    _scoped_variable_list: ($) =>
-      _list(alias($._scoped_variable, $.variable), ","),
-    _scoped_variable: ($) =>
+    _local_variable_list: ($) =>
+      _list(alias($._local_variable, $.variable), ","),
+    _local_variable: ($) =>
       seq(field("name", $.identifier), optional($.attribute)),
     attribute: ($) => seq("<", field("name", $.identifier), ">"),
 

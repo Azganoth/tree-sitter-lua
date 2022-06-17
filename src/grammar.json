@@ -118,7 +118,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "scoped_variable_declaration"
+          "name": "local_variable_declaration"
         },
         {
           "type": "PREC",
@@ -170,11 +170,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "scoped_function_definition_statement"
+          "name": "local_function_definition_statement"
         }
       ]
     },
-    "scoped_function_definition_statement": {
+    "local_function_definition_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -773,7 +773,7 @@
         }
       ]
     },
-    "scoped_variable_declaration": {
+    "local_variable_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -784,7 +784,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_scoped_variable_list"
+            "name": "_local_variable_list"
           },
           "named": true,
           "value": "variable_list"
@@ -817,14 +817,14 @@
         }
       ]
     },
-    "_scoped_variable_list": {
+    "_local_variable_list": {
       "type": "SEQ",
       "members": [
         {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_scoped_variable"
+            "name": "_local_variable"
           },
           "named": true,
           "value": "variable"
@@ -842,7 +842,7 @@
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_scoped_variable"
+                  "name": "_local_variable"
                 },
                 "named": true,
                 "value": "variable"
@@ -852,7 +852,7 @@
         }
       ]
     },
-    "_scoped_variable": {
+    "_local_variable": {
       "type": "SEQ",
       "members": [
         {
