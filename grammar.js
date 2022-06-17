@@ -59,8 +59,7 @@ module.exports = grammar({
         $.empty_statement,
         $.variable_assignment,
         $.local_variable_declaration,
-        // conflict: $.statement and $.prefix_expression
-        prec(1, $.function_call),
+        $.function_call,
         $.label_statement,
         $.goto_statement,
         $.break_statement,
@@ -183,8 +182,7 @@ module.exports = grammar({
         $.string,
         $.vararg_expression,
         $.function_definition,
-        // conflict: $.expression and $.function_call
-        prec(1, $.prefix_expression),
+        $.prefix_expression,
         $.table,
         $.unary_expression,
         $.binary_expression,
@@ -266,10 +264,11 @@ module.exports = grammar({
 
     prefix_expression: ($) =>
       choice($.variable, $.function_call, $.parenthesized_expression),
+    _prefix_expression: ($) => prec(1, $.prefix_expression),
     parenthesized_expression: ($) => seq("(", $.expression, ")"),
     function_call: ($) =>
       seq(
-        $.prefix_expression,
+        $._prefix_expression,
         optional(seq(":", field("method", $.identifier))),
         field("arguments", $.argument_list),
       ),
@@ -280,13 +279,13 @@ module.exports = grammar({
       choice(
         field("name", $.identifier),
         seq(
-          field("table", $.prefix_expression),
+          field("table", $._prefix_expression),
           "[",
           field("field", $.expression),
           "]",
         ),
         seq(
-          field("table", $.prefix_expression),
+          field("table", $._prefix_expression),
           ".",
           field("field", $.identifier),
         ),
@@ -354,9 +353,9 @@ module.exports = grammar({
     $._string_end,
   ],
 
-  inline: ($) => [$.field_separator],
+  inline: ($) => [$.prefix_expression, $.field_separator],
 
-  supertypes: ($) => [$.prefix_expression, $.expression, $.statement],
+  supertypes: ($) => [$._prefix_expression, $.expression, $.statement],
 
   word: ($) => $.identifier,
 });

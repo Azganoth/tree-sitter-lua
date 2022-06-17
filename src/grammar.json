@@ -121,12 +121,8 @@
           "name": "local_variable_declaration"
         },
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "function_call"
-          }
+          "type": "SYMBOL",
+          "name": "function_call"
         },
         {
           "type": "SYMBOL",
@@ -981,12 +977,8 @@
           "name": "function_definition"
         },
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "prefix_expression"
-          }
+          "type": "SYMBOL",
+          "name": "prefix_expression"
         },
         {
           "type": "SYMBOL",
@@ -1973,6 +1965,14 @@
         }
       ]
     },
+    "_prefix_expression": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SYMBOL",
+        "name": "prefix_expression"
+      }
+    },
     "parenthesized_expression": {
       "type": "SEQ",
       "members": [
@@ -1995,7 +1995,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "prefix_expression"
+          "name": "_prefix_expression"
         },
         {
           "type": "CHOICE",
@@ -2114,7 +2114,7 @@
               "name": "table",
               "content": {
                 "type": "SYMBOL",
-                "name": "prefix_expression"
+                "name": "_prefix_expression"
               }
             },
             {
@@ -2143,7 +2143,7 @@
               "name": "table",
               "content": {
                 "type": "SYMBOL",
-                "name": "prefix_expression"
+                "name": "_prefix_expression"
               }
             },
             {
@@ -2674,10 +2674,11 @@
     }
   ],
   "inline": [
+    "prefix_expression",
     "field_separator"
   ],
   "supertypes": [
-    "prefix_expression",
+    "_prefix_expression",
     "expression",
     "statement"
   ]

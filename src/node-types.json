@@ -1,5 +1,23 @@
 [
   {
+    "type": "_prefix_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "function_call",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "variable",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "expression",
     "named": true,
     "subtypes": [
@@ -9,6 +27,10 @@
       },
       {
         "type": "false",
+        "named": true
+      },
+      {
+        "type": "function_call",
         "named": true
       },
       {
@@ -24,7 +46,7 @@
         "named": true
       },
       {
-        "type": "prefix_expression",
+        "type": "parenthesized_expression",
         "named": true
       },
       {
@@ -45,20 +67,6 @@
       },
       {
         "type": "vararg_expression",
-        "named": true
-      }
-    ]
-  },
-  {
-    "type": "prefix_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "function_call",
-        "named": true
-      },
-      {
-        "type": "parenthesized_expression",
         "named": true
       },
       {
@@ -591,7 +599,7 @@
       "required": true,
       "types": [
         {
-          "type": "prefix_expression",
+          "type": "_prefix_expression",
           "named": true
         }
       ]
@@ -989,7 +997,7 @@
         "required": false,
         "types": [
           {
-            "type": "prefix_expression",
+            "type": "_prefix_expression",
             "named": true
           }
         ]
