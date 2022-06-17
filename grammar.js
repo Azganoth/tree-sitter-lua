@@ -56,25 +56,23 @@ module.exports = grammar({
 
     _statement: ($) =>
       choice(
+        $.empty_statement,
+        $.variable_assignment,
+        $.scoped_variable_declaration,
+        // conflict: $._statement and $._prefix_expression
+        prec(1, $.function_call),
+        $.label_statement,
+        $.goto_statement,
+        $.break_statement,
         $.do_statement,
+        $.while_statement,
+        $.repeat_statement,
         $.if_statement,
         $.for_numeric_statement,
         $.for_generic_statement,
-        $.while_statement,
-        $.repeat_statement,
-        $.break_statement,
-        $.label_statement,
-        $.goto_statement,
-        $.variable_assignment,
-        $.scoped_variable_declaration,
         $.function_definition_statement,
         $.scoped_function_definition_statement,
-        // conflict: $._statement and $._prefix_expression
-        prec(1, $.function_call),
-        $.empty_statement,
       ),
-
-    empty_statement: () => ";",
 
     scoped_function_definition_statement: ($) =>
       seq("local", "function", field("name", $.identifier), $._function_body),
@@ -85,44 +83,6 @@ module.exports = grammar({
       seq(
         _list($.identifier, "."),
         optional(seq(":", field("method", $.identifier))),
-      ),
-
-    scoped_variable_declaration: ($) =>
-      seq(
-        "local",
-        alias($.scoped_variable_list, $.variable_list),
-        optional(seq("=", alias($.value_list, $.expression_list))),
-      ),
-    scoped_variable_list: ($) =>
-      _list(alias($.scoped_variable, $.variable), ","),
-    scoped_variable: ($) =>
-      seq(field("name", $.identifier), optional($.attribute)),
-    attribute: ($) => seq("<", field("name", $.identifier), ">"),
-
-    variable_assignment: ($) =>
-      seq($.variable_list, "=", alias($.value_list, $.expression_list)),
-    variable_list: ($) => _list($.variable, ","),
-
-    goto_statement: ($) => seq("goto", field("name", $.identifier)),
-    label_statement: ($) => seq("::", field("name", $.identifier), "::"),
-
-    break_statement: () => "break",
-
-    repeat_statement: ($) =>
-      seq(
-        "repeat",
-        optional(field("body", $.block)),
-        "until",
-        field("condition", $._expression),
-      ),
-
-    while_statement: ($) =>
-      seq(
-        "while",
-        field("condition", $._expression),
-        "do",
-        optional(field("body", $.block)),
-        "end",
       ),
 
     for_generic_statement: ($) =>
@@ -171,7 +131,47 @@ module.exports = grammar({
       ),
     else_clause: ($) => seq("else", optional(field("body", $.block))),
 
+    repeat_statement: ($) =>
+      seq(
+        "repeat",
+        optional(field("body", $.block)),
+        "until",
+        field("condition", $._expression),
+      ),
+
+    while_statement: ($) =>
+      seq(
+        "while",
+        field("condition", $._expression),
+        "do",
+        optional(field("body", $.block)),
+        "end",
+      ),
+
     do_statement: ($) => seq("do", optional(field("body", $.block)), "end"),
+
+    break_statement: () => "break",
+
+    goto_statement: ($) => seq("goto", field("name", $.identifier)),
+    label_statement: ($) => seq("::", field("name", $.identifier), "::"),
+
+    scoped_variable_declaration: ($) =>
+      seq(
+        "local",
+        alias($.scoped_variable_list, $.variable_list),
+        optional(seq("=", alias($.value_list, $.expression_list))),
+      ),
+    scoped_variable_list: ($) =>
+      _list(alias($.scoped_variable, $.variable), ","),
+    scoped_variable: ($) =>
+      seq(field("name", $.identifier), optional($.attribute)),
+    attribute: ($) => seq("<", field("name", $.identifier), ">"),
+
+    variable_assignment: ($) =>
+      seq($.variable_list, "=", alias($.value_list, $.expression_list)),
+    variable_list: ($) => _list($.variable, ","),
+
+    empty_statement: () => ";",
 
     // expressions
     _expression: ($) =>
@@ -181,79 +181,14 @@ module.exports = grammar({
         $.true,
         $.number,
         $.string,
-        $.unary_expression,
-        $.binary_expression,
-        $.table,
         $.vararg_expression,
         $.function_definition,
         // conflict: $._expression and $.function_call
         prec(1, $._prefix_expression),
+        $.table,
+        $.unary_expression,
+        $.binary_expression,
       ),
-
-    _prefix_expression: ($) =>
-      choice($.variable, $.function_call, $.parenthesized_expression),
-    parenthesized_expression: ($) => seq("(", $._expression, ")"),
-    variable: ($) =>
-      choice(
-        field("name", $.identifier),
-        seq(
-          field("table", $._prefix_expression),
-          ".",
-          field("field", $.identifier),
-        ),
-        seq(
-          field("table", $._prefix_expression),
-          "[",
-          field("field", $._expression),
-          "]",
-        ),
-      ),
-    function_call: ($) =>
-      seq(
-        $._prefix_expression,
-        optional(seq(":", field("method", $.identifier))),
-        field("arguments", $.argument_list),
-      ),
-    argument_list: ($) =>
-      choice($.string, $.table, seq("(", optional($.expression_list), ")")),
-    expression_list: ($) => _list($._expression, ","),
-
-    function_definition: ($) => seq("function", $._function_body),
-    _function_body: ($) =>
-      seq(
-        "(",
-        optional(field("parameters", $.parameter_list)),
-        ")",
-        optional(field("body", $.block)),
-        "end",
-      ),
-    parameter_list: ($) =>
-      choice(
-        $.vararg_expression,
-        seq(
-          _list(field("name", $.identifier), ","),
-          optional(seq(",", $.vararg_expression)),
-        ),
-      ),
-
-    vararg_expression: () => "...",
-
-    table: ($) => seq("{", optional($.field_list), "}"),
-    field_list: ($) =>
-      seq(_list($.field, $._field_separator), optional($._field_separator)),
-    field: ($) =>
-      choice(
-        field("value", $._expression),
-        seq(field("key", $.identifier), "=", field("value", $._expression)),
-        seq(
-          "[",
-          field("key", $._expression),
-          "]",
-          "=",
-          field("value", $._expression),
-        ),
-      ),
-    _field_separator: () => choice(",", ";"),
 
     binary_expression: ($) =>
       choice(
@@ -311,6 +246,71 @@ module.exports = grammar({
           ),
         ),
       ),
+
+    table: ($) => seq("{", optional($.field_list), "}"),
+    field_list: ($) =>
+      seq(_list($.field, $._field_separator), optional($._field_separator)),
+    field: ($) =>
+      choice(
+        seq(
+          "[",
+          field("key", $._expression),
+          "]",
+          "=",
+          field("value", $._expression),
+        ),
+        seq(field("key", $.identifier), "=", field("value", $._expression)),
+        field("value", $._expression),
+      ),
+    _field_separator: () => choice(",", ";"),
+
+    _prefix_expression: ($) =>
+      choice($.variable, $.function_call, $.parenthesized_expression),
+    parenthesized_expression: ($) => seq("(", $._expression, ")"),
+    function_call: ($) =>
+      seq(
+        $._prefix_expression,
+        optional(seq(":", field("method", $.identifier))),
+        field("arguments", $.argument_list),
+      ),
+    argument_list: ($) =>
+      choice(seq("(", optional($.expression_list), ")"), $.table, $.string),
+    expression_list: ($) => _list($._expression, ","),
+    variable: ($) =>
+      choice(
+        field("name", $.identifier),
+        seq(
+          field("table", $._prefix_expression),
+          "[",
+          field("field", $._expression),
+          "]",
+        ),
+        seq(
+          field("table", $._prefix_expression),
+          ".",
+          field("field", $.identifier),
+        ),
+      ),
+
+    function_definition: ($) => seq("function", $._function_body),
+    _function_body: ($) =>
+      seq(
+        "(",
+        optional(field("parameters", $.parameter_list)),
+        ")",
+        optional(field("body", $.block)),
+        "end",
+      ),
+    parameter_list: ($) =>
+      choice(
+        seq(
+          _list(field("name", $.identifier), ","),
+          optional(seq(",", $.vararg_expression)),
+        ),
+        $.vararg_expression,
+      ),
+
+    vararg_expression: () => "...",
 
     string: ($) =>
       seq($._string_start, optional($._string_content), $._string_end),
