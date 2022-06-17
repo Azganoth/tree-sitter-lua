@@ -6,108 +6,104 @@ Complete Lua syntax in [extended BNF][extended bnf], adapted from it’s
 ```ebnf
 chunk = [block];
 
-block = return_statement | statement {statement} [return_statement];
+block = retstat | stat {stat} [retstat];
 
 (* statements *)
-return_statement = "return" [expression_list] [empty_statement];
+retstat = "return" [explist] [emptstat];
 
-statement = empty_statement | variable_assignment | scoped_variable_declaration | function_call
-  | label_statement | goto_statement | break_statement | do_statement | while_statement | repeat_statement
-  | if_statement | for_numeric_statement | for_generic_statement | function_definition_statement
-  | scoped_function_definition_statement;
+stat = emptstat | varassign | locvardecl | funccall | labstat | gotstat | brstat
+  | dostat | whistat | repstat | ifstat | foristat | forstat | funcdefstat | locfuncdefstat;
 
-scoped_function_definition_statement = "local" "function" identifier function_body;
+locfuncdefstat = "local" "function" name funcbody;
 
-function_definition_statement = "function" function_identifier function_body;
-function_identifier = identifier {"." identifier} [":" identifier];
+funcdefstat = "function" funcname funcbody;
+funcname = name {"." name} [":" name];
 
-for_generic_statement = "for" identifier_list "in" expression_list "do" [block] "end";
+forstat = "for" namelist "in" explist "do" [block] "end";
 
-for_numeric_statement = "for" identifier "=" expression "," expression ["," expression] "do" [block] "end";
+foristat = "for" name "=" exp "," exp ["," exp] "do" [block] "end";
 
-if_statement = "if" expression "then" [block] {"elseif" expression "then" [block]}
-  ["else" [block]] "end";
+ifstat = "if" exp "then" [block] {"elseif" exp "then" [block]} ["else" [block]] "end";
 
-repeat_statement = "repeat" [block] "until" expression;
+repstat = "repeat" [block] "until" exp;
 
-while_statement = "while" expression "do" [block] "end";
+whistat = "while" exp "do" [block] "end";
 
-do_statement = "do" [block] "end";
+dostat = "do" [block] "end";
 
-break_statement = "break";
+brstat = "break";
 
-goto_statement = "goto" identifier;
-label_statement = "::" identifier "::";
+gotstat = "goto" name;
+labstat = "::" name "::";
 
-scoped_variable_declaration = "local" scoped_variable_list ["=" expression_list];
-scoped_variable_list = scoped_variable {',' scoped_variable};
-scoped_variable = identifier [attribute];
-attribute = '<' identifier '>';
+locvardecl = "local" locvarlist ["=" explist];
+locvarlist = locvar {',' locvar};
+locvar = name [attr];
+attr = '<' name '>';
 
-variable_assignment = variable_list "=" expression_list;
-variable_list = variable {"," variable};
+varassign = varlist "=" explist;
+varlist = var {"," var};
 
-empty_statement = ";";
+emptstat = ";";
 
 (* expressions *)
-expression = "nil" | "false" | "true" | number | string | vararg_expression | function_definition
-  | prefix_expression | table | unary_expression | binary_expression;
+exp = "nil" | "false" | "true" | num | str | varargexp | funcdef | prefixexp | table
+  | unexp | binexp;
 
-prefix_expression = variable | function_call | "(" expression ")";
-variable = identifier | prefix_expression "[" expression "]" | prefix_expression "." identifier;
-function_call = prefix_expression [":" identifier] argument_list;
-argument_list = "(" [expression_list] ")" | table | string;
-expression_list = expression {"," expression};
+prefixexp = var | funccall | "(" exp ")";
+var = name | prefixexp "[" exp "]" | prefixexp "." name;
+funccall = prefixexp [":" name] arglist;
+arglist = "(" [explist] ")" | table | str;
+explist = exp {"," exp};
 
-function_definition = "function" function_body;
-function_body = "(" [parameter_list] ")" [block] "end";
-parameter_list = identifier_list ["," vararg_expression] | vararg_expression;
-identifier_list = identifier {"," identifier};
+funcdef = "function" funcbody;
+funcbody = "(" [parlist] ")" [block] "end";
+parlist = namelist ["," varargexp] | varargexp;
+namelist = name {"," name};
 
-vararg_expression = "...";
+varargexp = "...";
 
-table = "{" [field_list] "}";
-field_list = field {field_separator field} [field_separator];
-field = "[" expression "]" "=" expression | identifier "=" expression | expression;
-field_separator = "," | ";";
+table = "{" [fieldlist] "}";
+fieldlist = field {fieldsep field} [fieldsep];
+field = "[" exp "]" "=" exp | name "=" exp | exp;
+fieldsep = "," | ";";
 
-binary_expression = expression binary_operator expression;
-binary_operator = "or" | "and" | "==" | "~=" | "<" | ">" | "<=" | ">=" | "|"
-  | "~" | "&" | "<<" | ">>" | ".." | "+" | "-" | "*" | "/" | "//" | "%" | "^";
+binexp = exp binop exp;
+binop = "or" | "and" | "==" | "~=" | "<" | ">" | "<=" | ">=" | "|" | "~" | "&" | "<<" | ">>"
+  | ".." | "+" | "-" | "*" | "/" | "//" | "%" | "^";
 
-unary_expression = unary_operator expression;
-unary_operator = "not" | "#" | "-" | "~";
+unexp = unop exp;
+unop = "not" | "#" | "-" | "~";
 
-string = "'" {, inline_character - "'"}, "'" | '"' {, inline_character - '"'}, '"'
-  | multiline_start {, character}, multiline_end;
-inline_character = ? any character except a newline ?;
-character = ? any character ?;
+str = "'" {, inchar - "'"}, "'" | '"' {, inchar - '"'}, '"' | multstart {, char}, multend;
+inchar = ? any char except a newline ?;
+char = ? any char ?;
 
-number = decimal | hexadecimal;
+num = dec | hex;
 
-hexadecimal = ["-"] ("0x" | "0X"), hexadecimal_numeral [, ("p" | "P"), exponent];
-hexadecimal_numeral = hexadecimal_digit {, hexadecimal_digit}
-  | hexadecimal_digit {, hexadecimal_digit}, "." {, hexadecimal_digit}
-  | {hexadecimal_digit ,} ".", hexadecimal_digit {, hexadecimal_digit};
-hexadecimal_digit = ? hexadecimal numeric character ?;
+hex = ["-"] ("0x" | "0X"), hexnum [, ("p" | "P"), exponent];
+hexnum = hexdigit {, hexdigit}
+  | hexdigit {, hexdigit}, "." {, hexdigit}
+  | {hexdigit ,} ".", hexdigit {, hexdigit};
+hexdigit = ? hex numeric char ?;
 
-decimal = ["-"] decimal_numeral [, ("e" | "E"), exponent];
-decimal_numeral = decimal_digit {, decimal_digit}
-  | decimal_digit {, decimal_digit}, "." {, decimal_digit}
-  | {decimal_digit ,} ".", decimal_digit {, decimal_digit};
-decimal_digit = ? decimal numeric character ?;
+dec = ["-"] decnum [, ("e" | "E"), exponent];
+decnum = decdigit {, decdigit}
+  | decdigit {, decdigit}, "." {, decdigit}
+  | {decdigit ,} ".", decdigit {, decdigit};
+decdigit = ? dec numeric char ?;
 
-exponent = [("+" | "-") ,] decimal_digit {, decimal_digit};
+exponent = [("+" | "-") ,] decdigit {, decdigit};
 
-identifier = (letter | "_") {, letter | decimal_digit | "_"};
-letter = ? case insensitive alphabetic character ?;
+name = (letter | "_") {, letter | decdigit | "_"};
+letter = ? case insensitive alphabetic char ?;
 
 (* extras *)
-comment = "--" {, inline_character} | "--", multiline_start {, character}, multiline_end;
+comment = "--" {, inchar} | "--", multstart {, char}, multend;
 
-(* "start" and "end" must have the same number of equal signs ("=") *)
-multiline_start = "[" {, "="}, "[";
-multiline_end = "]" {, "="}, "]";
+(* "start" and "end" must have the same num of equal signs ("=") *)
+multstart = "[" {, "="}, "[";
+multend = "]" {, "="}, "]";
 ```
 
 [extended bnf]: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
