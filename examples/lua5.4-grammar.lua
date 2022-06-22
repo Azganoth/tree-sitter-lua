@@ -70,10 +70,10 @@ FLAGS:
     -V, --version    Prints version information
 ]])
 print([=[
-[[Fruits]]
-- Banana
-- Orange
-- Apple
+Write-Information
+  [-MessageData] <Object>
+  [[-Tags] <String[]>]
+  [<CommonParameters>]
 ]=])
 
 -- function definitions

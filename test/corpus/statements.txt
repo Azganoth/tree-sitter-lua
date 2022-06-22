@@ -74,9 +74,14 @@ local circumference, nothing<close> = 2 * pi * 24
 function calls (as statement)
 ================================================================================
 
-print()
-print("hi!")
-print(math.random())
+print(_G)
+print''
+print""
+print[[]]
+print{}
+
+io.output()
+io.output():read()
 
 --------------------------------------------------------------------------------
 
@@ -84,24 +89,45 @@ print(math.random())
   (function_call
     (variable
       name: (identifier))
+    arguments: (argument_list
+      (expression_list
+        (variable
+          name: (identifier)))))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (string)))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (string)))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (string)))
+  (function_call
+    (variable
+      name: (identifier))
+    arguments: (argument_list
+      (table)))
+  (function_call
+    (variable
+      table: (variable
+        name: (identifier))
+      field: (identifier))
     arguments: (argument_list))
   (function_call
-    (variable
-      name: (identifier))
-    arguments: (argument_list
-      (expression_list
-        (string))))
-  (function_call
-    (variable
-      name: (identifier))
-    arguments: (argument_list
-      (expression_list
-        (function_call
-          (variable
-            table: (variable
-              name: (identifier))
-            field: (identifier))
-          arguments: (argument_list))))))
+    (function_call
+      (variable
+        table: (variable
+          name: (identifier))
+        field: (identifier))
+      arguments: (argument_list))
+    method: (identifier)
+    arguments: (argument_list)))
 
 ================================================================================
 labels
