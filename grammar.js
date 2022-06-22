@@ -79,10 +79,7 @@ module.exports = grammar({
     function_definition_statement: ($) =>
       seq("function", field("name", $.function_identifier), $._function_body),
     function_identifier: ($) =>
-      seq(
-        _list($.identifier, "."),
-        optional(seq(":", field("method", $.identifier))),
-      ),
+      seq(_list($.identifier, "."), optional($._method)),
 
     for_generic_statement: ($) =>
       seq(
@@ -269,9 +266,10 @@ module.exports = grammar({
     function_call: ($) =>
       seq(
         $._prefix_expression,
-        optional(seq(":", field("method", $.identifier))),
+        optional($._method),
         field("arguments", $.argument_list),
       ),
+    _method: ($) => seq(":", field("method", $.identifier)),
     argument_list: ($) =>
       choice(seq("(", optional($.expression_list), ")"), $.table, $.string),
     expression_list: ($) => _list($.expression, ","),
