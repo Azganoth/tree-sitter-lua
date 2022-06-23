@@ -59,7 +59,7 @@ module.exports = grammar({
         $.empty_statement,
         $.variable_assignment,
         $.local_variable_declaration,
-        $.function_call,
+        $.call,
         $.label_statement,
         $.goto_statement,
         $.break_statement,
@@ -260,19 +260,22 @@ module.exports = grammar({
     field_separator: () => choice(",", ";"),
 
     prefix_expression: ($) =>
-      choice($.variable, $.function_call, $.parenthesized_expression),
+      choice($.variable, $.call, $.parenthesized_expression),
     _prefix_expression: ($) => prec(1, $.prefix_expression),
+
     parenthesized_expression: ($) => seq("(", $.expression, ")"),
-    function_call: ($) =>
+
+    call: ($) =>
       seq(
-        $._prefix_expression,
-        optional($._method),
+        field("function", $.call_identifier),
         field("arguments", $.argument_list),
       ),
+    call_identifier: ($) => seq($._prefix_expression, optional($._method)),
     _method: ($) => seq(":", field("method", $.identifier)),
     argument_list: ($) =>
       choice(seq("(", optional($.expression_list), ")"), $.table, $.string),
     expression_list: ($) => _list($.expression, ","),
+
     variable: ($) =>
       choice(
         field("name", $.identifier),

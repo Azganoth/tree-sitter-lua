@@ -4,7 +4,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "function_call",
+        "type": "call",
         "named": true
       },
       {
@@ -26,11 +26,11 @@
         "named": true
       },
       {
-        "type": "false",
+        "type": "call",
         "named": true
       },
       {
-        "type": "function_call",
+        "type": "false",
         "named": true
       },
       {
@@ -84,6 +84,10 @@
         "named": true
       },
       {
+        "type": "call",
+        "named": true
+      },
+      {
         "type": "do_statement",
         "named": true
       },
@@ -97,10 +101,6 @@
       },
       {
         "type": "for_numeric_statement",
-        "named": true
-      },
-      {
-        "type": "function_call",
         "named": true
       },
       {
@@ -310,6 +310,58 @@
         },
         {
           "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "call",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument_list",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "call_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "call_identifier",
+    "named": true,
+    "fields": {
+      "method": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_prefix_expression",
           "named": true
         }
       ]
@@ -567,42 +619,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "function_call",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "argument_list",
-            "named": true
-          }
-        ]
-      },
-      "method": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_prefix_expression",
-          "named": true
-        }
-      ]
     }
   },
   {

@@ -122,7 +122,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_call"
+          "name": "call"
         },
         {
           "type": "SYMBOL",
@@ -1944,7 +1944,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_call"
+          "name": "call"
         },
         {
           "type": "SYMBOL",
@@ -1977,7 +1977,28 @@
         }
       ]
     },
-    "function_call": {
+    "call": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "function",
+          "content": {
+            "type": "SYMBOL",
+            "name": "call_identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "arguments",
+          "content": {
+            "type": "SYMBOL",
+            "name": "argument_list"
+          }
+        }
+      ]
+    },
+    "call_identifier": {
       "type": "SEQ",
       "members": [
         {
@@ -1995,14 +2016,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "SYMBOL",
-            "name": "argument_list"
-          }
         }
       ]
     },

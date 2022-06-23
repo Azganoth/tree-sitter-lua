@@ -86,47 +86,55 @@ io.output():read()
 --------------------------------------------------------------------------------
 
 (chunk
-  (function_call
-    (variable
-      name: (identifier))
+  (call
+    function: (call_identifier
+      (variable
+        name: (identifier)))
     arguments: (argument_list
       (expression_list
         (variable
           name: (identifier)))))
-  (function_call
-    (variable
-      name: (identifier))
+  (call
+    function: (call_identifier
+      (variable
+        name: (identifier)))
     arguments: (argument_list
       (string)))
-  (function_call
-    (variable
-      name: (identifier))
+  (call
+    function: (call_identifier
+      (variable
+        name: (identifier)))
     arguments: (argument_list
       (string)))
-  (function_call
-    (variable
-      name: (identifier))
+  (call
+    function: (call_identifier
+      (variable
+        name: (identifier)))
     arguments: (argument_list
       (string)))
-  (function_call
-    (variable
-      name: (identifier))
+  (call
+    function: (call_identifier
+      (variable
+        name: (identifier)))
     arguments: (argument_list
       (table)))
-  (function_call
-    (variable
-      table: (variable
-        name: (identifier))
-      field: (identifier))
-    arguments: (argument_list))
-  (function_call
-    (function_call
+  (call
+    function: (call_identifier
       (variable
         table: (variable
           name: (identifier))
-        field: (identifier))
-      arguments: (argument_list))
-    method: (identifier)
+        field: (identifier)))
+    arguments: (argument_list))
+  (call
+    function: (call_identifier
+      (call
+        function: (call_identifier
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier)))
+        arguments: (argument_list))
+      method: (identifier))
     arguments: (argument_list)))
 
 ================================================================================
@@ -212,11 +220,12 @@ end
       (variable
         name: (identifier)))
     (expression_list
-      value: (function_call
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (identifier))
+      value: (call
+        function: (call_identifier
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier)))
         arguments: (argument_list
           (expression_list
             (number)
@@ -227,9 +236,10 @@ end
         name: (identifier))
       right: (number))
     consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
+      (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (string)))))
   (variable_assignment
@@ -237,11 +247,12 @@ end
       (variable
         name: (identifier)))
     (expression_list
-      value: (function_call
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (identifier))
+      value: (call
+        function: (call_identifier
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier)))
         arguments: (argument_list
           (expression_list
             (number)
@@ -254,16 +265,18 @@ end
         right: (number))
       right: (number))
     consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
+      (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (string))))
     alternative: (else_clause
       body: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string))))))
   (variable_assignment
@@ -285,11 +298,12 @@ end
       value: (variable
         table: (variable
           name: (identifier))
-        field: (function_call
-          (variable
-            table: (variable
-              name: (identifier))
-            field: (identifier))
+        field: (call
+          function: (call_identifier
+            (variable
+              table: (variable
+                name: (identifier))
+              field: (identifier)))
           arguments: (argument_list
             (expression_list
               (number)))))))
@@ -299,9 +313,10 @@ end
         name: (identifier))
       right: (string))
     consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
+      (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (string))))
     alternative: (elseif_clause
@@ -310,9 +325,10 @@ end
           name: (identifier))
         right: (string))
       consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string))))))
   (variable_assignment
@@ -320,11 +336,12 @@ end
       (variable
         name: (identifier)))
     (expression_list
-      value: (function_call
-        (variable
-          table: (variable
-            name: (identifier))
-          field: (identifier))
+      value: (call
+        function: (call_identifier
+          (variable
+            table: (variable
+              name: (identifier))
+            field: (identifier)))
         arguments: (argument_list
           (expression_list
             (number)
@@ -335,9 +352,10 @@ end
         name: (identifier))
       right: (number))
     consequence: (block
-      (function_call
-        (variable
-          name: (identifier))
+      (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (string))))
     alternative: (elseif_clause
@@ -346,9 +364,10 @@ end
           name: (identifier))
         right: (number))
       consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string)))))
     alternative: (elseif_clause
@@ -357,9 +376,10 @@ end
           name: (identifier))
         right: (number))
       consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string)))))
     alternative: (elseif_clause
@@ -368,16 +388,18 @@ end
           name: (identifier))
         right: (number))
       consequence: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string)))))
     alternative: (else_clause
       body: (block
-        (function_call
-          (variable
-            name: (identifier))
+        (call
+          function: (call_identifier
+            (variable
+              name: (identifier)))
           arguments: (argument_list
             (string)))))))
 
@@ -522,9 +544,10 @@ end
       name: (identifier)
       name: (identifier))
     right: (expression_list
-      value: (function_call
-        (variable
-          name: (identifier))
+      value: (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (expression_list
             (table))))))
@@ -556,17 +579,19 @@ end
       name: (identifier)
       name: (identifier))
     right: (expression_list
-      value: (function_call
-        (variable
-          name: (identifier))
+      value: (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (expression_list
             (variable
               name: (identifier))))))
     body: (block
-      (function_call
-        (variable
-          name: (identifier))
+      (call
+        function: (call_identifier
+          (variable
+            name: (identifier)))
         arguments: (argument_list
           (expression_list
             (variable
@@ -690,9 +715,10 @@ function _G._G:noop() end
     body: (block
       (return_statement
         (expression_list
-          (function_call
-            (variable
-              name: (identifier))
+          (call
+            function: (call_identifier
+              (variable
+                name: (identifier)))
             arguments: (argument_list
               (expression_list
                 (vararg_expression))))))))
@@ -773,9 +799,10 @@ local function _apply(func, ...) return func(...) end
     body: (block
       (return_statement
         (expression_list
-          (function_call
-            (variable
-              name: (identifier))
+          (call
+            function: (call_identifier
+              (variable
+                name: (identifier)))
             arguments: (argument_list
               (expression_list
                 (vararg_expression)))))))))
