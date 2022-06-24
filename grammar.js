@@ -264,15 +264,16 @@ module.exports = grammar({
     field_list: ($) =>
       seq(_list($.field, $.field_separator), optional($.field_separator)),
     field: ($) =>
-      choice(
-        seq(
-          "[",
-          field("key", $.expression),
-          "]",
-          "=",
-          field("value", $.expression),
+      seq(
+        optional(
+          seq(
+            choice(
+              field("key", $.identifier),
+              seq("[", field("key", $.expression), "]"),
+            ),
+            "=",
+          ),
         ),
-        seq(field("key", $.identifier), "=", field("value", $.expression)),
         field("value", $.expression),
       ),
     field_separator: () => choice(",", ";"),
