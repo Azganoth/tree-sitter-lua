@@ -11,6 +11,7 @@ const PREC = {
   MULTIPLICATIVE: 10, // "*" "/" "//" "%"
   UNARY: 11, // "not" "#" "-" "~"
   POWER: 12, // "^"
+  CALL: 13,
 };
 
 const WHITESPACE = /\s/;
@@ -77,9 +78,26 @@ module.exports = grammar({
       seq("local", "function", field("name", $.identifier), $._function_body),
 
     function_definition_statement: ($) =>
-      seq("function", field("name", $.function_identifier), $._function_body),
-    function_identifier: ($) =>
-      seq(_list($.identifier, "."), optional($._method)),
+      seq(
+        "function",
+        field(
+          "name",
+          choice($.identifier, alias($._table_function_variable, $.variable)),
+        ),
+        $._function_body,
+      ),
+    _table_function_variable: ($) =>
+      seq(
+        $._table_identifier,
+        choice($._named_field_identifier, $._method_identifier),
+      ),
+    _table_identifier: ($) =>
+      field(
+        "table",
+        choice($.identifier, alias($._table_field_variable, $.variable)),
+      ),
+    _table_field_variable: ($) =>
+      seq($._table_identifier, $._named_field_identifier),
 
     for_generic_statement: ($) =>
       seq(
@@ -259,38 +277,47 @@ module.exports = grammar({
       ),
     field_separator: () => choice(",", ";"),
 
-    prefix_expression: ($) =>
-      choice($.variable, $.call, $.parenthesized_expression),
-    _prefix_expression: ($) => prec(1, $.prefix_expression),
+    prefix: ($) => choice($.variable, $.call, $.parenthesized_expression),
+    prefix_expression: ($) => $.prefix,
+    _prefix_expression: ($) => prec(PREC.CALL, $.prefix),
 
     parenthesized_expression: ($) => seq("(", $.expression, ")"),
 
     call: ($) =>
       seq(
-        field("function", $.call_identifier),
+        field(
+          "function",
+          choice(
+            $._prefix_expression,
+            alias($._table_method_variable, $.variable),
+          ),
+        ),
         field("arguments", $.argument_list),
       ),
-    call_identifier: ($) => seq($._prefix_expression, optional($._method)),
-    _method: ($) => seq(":", field("method", $.identifier)),
+    _table_method_variable: ($) =>
+      seq(field("table", $.prefix_expression), $._method_identifier),
+    _method_identifier: ($) => seq(":", field("method", $.identifier)),
     argument_list: ($) =>
       choice(seq("(", optional($.expression_list), ")"), $.table, $.string),
     expression_list: ($) => _list($.expression, ","),
 
-    variable: ($) =>
-      choice(
-        field("name", $.identifier),
-        seq(
-          field("table", $._prefix_expression),
-          "[",
-          field("field", $.expression),
-          "]",
+    variable: ($) => choice(field("name", $.identifier), $._table_variable),
+    _table_variable: ($) =>
+      seq(
+        field(
+          "table",
+          choice(
+            $.identifier,
+            alias($._table_variable, $.variable),
+            $.call,
+            $.parenthesized_expression,
+          ),
         ),
-        seq(
-          field("table", $._prefix_expression),
-          ".",
-          field("field", $.identifier),
-        ),
+        choice($._indexed_field_identifier, $._named_field_identifier),
       ),
+    _named_field_identifier: ($) => seq(".", field("field", $.identifier)),
+    _indexed_field_identifier: ($) =>
+      seq("[", field("field", $.expression), "]"),
 
     function_definition: ($) => seq("function", $._function_body),
     _function_body: ($) =>
@@ -354,9 +381,9 @@ module.exports = grammar({
     $._string_end,
   ],
 
-  inline: ($) => [$.prefix_expression, $.field_separator],
+  inline: ($) => [$.prefix, $.field_separator],
 
-  supertypes: ($) => [$._prefix_expression, $.expression, $.statement],
+  supertypes: ($) => [$.prefix_expression, $.expression, $.statement],
 
   word: ($) => $.identifier,
 });

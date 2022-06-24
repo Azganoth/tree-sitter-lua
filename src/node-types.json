@@ -1,32 +1,10 @@
 [
   {
-    "type": "_prefix_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "call",
-        "named": true
-      },
-      {
-        "type": "parenthesized_expression",
-        "named": true
-      },
-      {
-        "type": "variable",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "expression",
     "named": true,
     "subtypes": [
       {
         "type": "binary_expression",
-        "named": true
-      },
-      {
-        "type": "call",
         "named": true
       },
       {
@@ -46,7 +24,7 @@
         "named": true
       },
       {
-        "type": "parenthesized_expression",
+        "type": "prefix_expression",
         "named": true
       },
       {
@@ -67,6 +45,20 @@
       },
       {
         "type": "vararg_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "prefix_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "call",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
         "named": true
       },
       {
@@ -334,37 +326,19 @@
         "required": true,
         "types": [
           {
-            "type": "call_identifier",
+            "type": "call",
             "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "call_identifier",
-    "named": true,
-    "fields": {
-      "method": {
-        "multiple": false,
-        "required": false,
-        "types": [
+          },
           {
-            "type": "identifier",
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "variable",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_prefix_expression",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -666,7 +640,11 @@
         "required": true,
         "types": [
           {
-            "type": "function_identifier",
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "variable",
             "named": true
           }
         ]
@@ -681,32 +659,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "function_identifier",
-    "named": true,
-    "fields": {
-      "method": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -998,6 +950,16 @@
           }
         ]
       },
+      "method": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": false,
@@ -1013,7 +975,11 @@
         "required": false,
         "types": [
           {
-            "type": "_prefix_expression",
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "prefix_expression",
             "named": true
           }
         ]

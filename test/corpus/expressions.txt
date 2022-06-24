@@ -10,23 +10,20 @@ print(true)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (nil))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (false))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (true)))))
@@ -44,30 +41,26 @@ print(-105)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number)))))
@@ -85,30 +78,26 @@ print(-0xfab)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number)))))
@@ -126,30 +115,26 @@ print(.31416E1)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number)))))
@@ -167,30 +152,26 @@ print(0X1.921FB54442D18P+1)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (number)))))
@@ -209,37 +190,32 @@ print('"Did you put your name into the Goblet of Fire, Harry?" -- Dumbledore ask
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string)))))
@@ -269,16 +245,14 @@ Write-Information
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (string)))))
@@ -299,16 +273,14 @@ print(function(func, ...) return func(...) end)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (function_definition))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (function_definition
@@ -324,9 +296,8 @@ print(function(func, ...) return func(...) end)
                     right: (number))
                   right: (number)))))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (function_definition
@@ -342,9 +313,8 @@ print(function(func, ...) return func(...) end)
                   right: (variable
                     name: (identifier))))))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (function_definition
@@ -358,9 +328,8 @@ print(function(func, ...) return func(...) end)
                     (field
                       value: (vararg_expression)))))))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (function_definition
@@ -371,9 +340,8 @@ print(function(func, ...) return func(...) end)
             (return_statement
               (expression_list
                 (call
-                  function: (call_identifier
-                    (variable
-                      name: (identifier)))
+                  function: (variable
+                    name: (identifier))
                   arguments: (argument_list
                     (expression_list
                       (vararg_expression))))))))))))
@@ -392,58 +360,49 @@ print(_G["_G"]["_G"]["_VERSION"])
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (variable
           name: (identifier)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (variable
-          table: (variable
-            name: (identifier))
+          table: (identifier)
           field: (identifier)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (variable
-          table: (variable
-            name: (identifier))
+          table: (identifier)
           field: (string)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (variable
           table: (variable
             table: (variable
-              table: (variable
-                name: (identifier))
+              table: (identifier)
               field: (identifier))
             field: (identifier))
           field: (identifier)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (variable
           table: (variable
             table: (variable
-              table: (variable
-                name: (identifier))
+              table: (identifier)
               field: (string))
             field: (string))
           field: (string))))))
@@ -465,94 +424,78 @@ print(io.output():read())
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              name: (identifier)))
+          function: (variable
+            name: (identifier))
           arguments: (argument_list
             (expression_list
               (variable
                 name: (identifier))))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              name: (identifier)))
+          function: (variable
+            name: (identifier))
           arguments: (argument_list
             (string))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              name: (identifier)))
+          function: (variable
+            name: (identifier))
           arguments: (argument_list
             (string))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              name: (identifier)))
+          function: (variable
+            name: (identifier))
           arguments: (argument_list
             (string))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              name: (identifier)))
+          function: (variable
+            name: (identifier))
           arguments: (argument_list
             (table))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (variable
-              table: (variable
-                name: (identifier))
-              field: (identifier)))
+          function: (variable
+            table: (identifier)
+            field: (identifier))
           arguments: (argument_list)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (call
-          function: (call_identifier
-            (call
-              function: (call_identifier
-                (variable
-                  table: (variable
-                    name: (identifier))
-                  field: (identifier)))
+          function: (variable
+            table: (call
+              function: (variable
+                table: (identifier)
+                field: (identifier))
               arguments: (argument_list))
             method: (identifier))
           arguments: (argument_list))))))
@@ -578,9 +521,8 @@ print({
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (table
@@ -593,15 +535,13 @@ print({
               value: (table))
             (field
               value: (call
-                function: (call_identifier
-                  (variable
-                    name: (identifier)))
+                function: (variable
+                  name: (identifier))
                 arguments: (argument_list
                   (string)))))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (table
@@ -635,34 +575,30 @@ print(~0)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (unary_expression
           argument: (true)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (unary_expression
           argument: (string)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (unary_expression
           argument: (unary_expression
             argument: (string))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (unary_expression
@@ -680,9 +616,8 @@ print(5 - -5 == 0 and 1 or 0)
 
 (chunk
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (binary_expression
@@ -693,9 +628,8 @@ print(5 - -5 == 0 and 1 or 0)
             left: (number)
             right: (number))))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (binary_expression
@@ -704,9 +638,8 @@ print(5 - -5 == 0 and 1 or 0)
             right: (number))
           right: (number)))))
   (call
-    function: (call_identifier
-      (variable
-        name: (identifier)))
+    function: (variable
+      name: (identifier))
     arguments: (argument_list
       (expression_list
         (binary_expression
