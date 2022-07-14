@@ -33,13 +33,20 @@ static bool consume_if(TSLexer *lexer, const int32_t character)
 const char SQ_STRING_DELIMITER = '\'';
 const char DQ_STRING_DELIMITER = '"';
 
+struct ScannerState {
+  unsigned short started;
+  unsigned int depth;
+};
+
 void *tree_sitter_lua_external_scanner_create()
 {
-  return NULL;
+  struct ScannerState * state = malloc(sizeof(struct ScannerState));
+  return state;
 }
 
 void tree_sitter_lua_external_scanner_destroy(void *payload)
 {
+  free(payload);
 }
 
 enum StartedToken
@@ -51,13 +58,11 @@ enum StartedToken
   LONG_STRING,
 };
 
-unsigned short started = 0;
-unsigned int depth = 0;
-
 unsigned int tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer)
 {
-  buffer[0] = started;
-  buffer[1] = depth;
+  struct ScannerState * state = (struct ScannerState *)payload;
+  buffer[0] = state->started;
+  buffer[1] = state->depth;
   return 2;
 }
 
@@ -65,8 +70,9 @@ void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buf
 {
   if (length == 2)
   {
-    started = buffer[0];
-    depth = buffer[1];
+    struct ScannerState * state = (struct ScannerState *)payload;
+    state->started = buffer[0];
+    state->depth = buffer[1];
   }
 }
 
@@ -81,9 +87,9 @@ static unsigned int get_depth(TSLexer *lexer)
   return current_depth;
 }
 
-static bool scan_depth(TSLexer *lexer)
+static bool scan_depth(TSLexer *lexer, struct ScannerState * state)
 {
-  unsigned int remaining_depth = depth;
+  unsigned int remaining_depth = state->depth;
   while (remaining_depth > 0 && consume_if(lexer, '='))
   {
     remaining_depth -= 1;
@@ -94,7 +100,8 @@ static bool scan_depth(TSLexer *lexer)
 
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols)
 {
-  switch (started)
+  struct ScannerState * state = (struct ScannerState *)payload;
+  switch (state->started)
   {
   case SHORT_COMMENT:
   {
@@ -103,7 +110,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
     {
       if (valid_symbols[COMMENT_END])
       {
-        started = 0;
+        state->started = 0;
 
         lexer->result_symbol = COMMENT_END;
         return true;
@@ -127,14 +134,14 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
   case SHORT_DQ_STRING:
   {
     // define the short string's delimiter
-    const char delimiter = started == SHORT_SQ_STRING ? SQ_STRING_DELIMITER : DQ_STRING_DELIMITER;
+    const char delimiter = state->started == SHORT_SQ_STRING ? SQ_STRING_DELIMITER : DQ_STRING_DELIMITER;
 
     // try to match the short string's end (" or ')
     if (consume_if(lexer, delimiter))
     {
       if (valid_symbols[STRING_END])
       {
-        started = 0;
+        state->started = 0;
 
         lexer->result_symbol = STRING_END;
         return true;
@@ -163,7 +170,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
   case LONG_COMMENT:
   case LONG_STRING:
   {
-    const bool is_inside_a_comment = started == LONG_COMMENT;
+    const bool is_inside_a_comment = state->started == LONG_COMMENT;
 
     bool some_characters_were_consumed = false;
     if (is_inside_a_comment ? valid_symbols[COMMENT_END] : valid_symbols[STRING_END])
@@ -171,10 +178,10 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       // try to match the long comment's/string's end (]=*])
       if (consume_if(lexer, ']'))
       {
-        if (scan_depth(lexer) && consume_if(lexer, ']'))
+        if (scan_depth(lexer, state) && consume_if(lexer, ']'))
         {
-          started = 0;
-          depth = 0;
+          state->started = 0;
+          state->depth = 0;
 
           lexer->result_symbol = is_inside_a_comment ? COMMENT_END : STRING_END;
           return true;
@@ -203,7 +210,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
         lexer->mark_end(lexer);
         if (consume_if(lexer, ']'))
         {
-          if (scan_depth(lexer))
+          if (scan_depth(lexer, state))
           {
             if (consume_if(lexer, ']'))
             {
@@ -245,7 +252,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       {
         if (consume_if(lexer, '-'))
         {
-          started = SHORT_COMMENT;
+          state->started = SHORT_COMMENT;
 
           // try to match a long comment's start (--[=*[)
           lexer->mark_end(lexer);
@@ -255,8 +262,8 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
             if (consume_if(lexer, '['))
             {
-              started = LONG_COMMENT;
-              depth = possible_depth;
+              state->started = LONG_COMMENT;
+              state->depth = possible_depth;
 
               lexer->mark_end(lexer);
             }
@@ -275,12 +282,12 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       // try to match a short single-quoted string's start (")
       if (consume_if(lexer, SQ_STRING_DELIMITER))
       {
-        started = SHORT_SQ_STRING;
+        state->started = SHORT_SQ_STRING;
       }
       // try to match a short double-quoted string's start (')
       else if (consume_if(lexer, DQ_STRING_DELIMITER))
       {
-        started = SHORT_DQ_STRING;
+        state->started = SHORT_DQ_STRING;
       }
       // try to match a long string's start ([=*[)
       else if (consume_if(lexer, '['))
@@ -289,12 +296,12 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
         if (consume_if(lexer, '['))
         {
-          started = LONG_STRING;
-          depth = possible_depth;
+          state->started = LONG_STRING;
+          state->depth = possible_depth;
         }
       }
 
-      if (started)
+      if (state->started)
       {
         lexer->result_symbol = STRING_START;
         return true;
