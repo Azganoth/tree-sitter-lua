@@ -33,22 +33,6 @@ static bool consume_if(TSLexer *lexer, const int32_t character)
 const char SQ_STRING_DELIMITER = '\'';
 const char DQ_STRING_DELIMITER = '"';
 
-struct ScannerState {
-  unsigned short started;
-  unsigned int depth;
-};
-
-void *tree_sitter_lua_external_scanner_create()
-{
-  struct ScannerState * state = malloc(sizeof(struct ScannerState));
-  return state;
-}
-
-void tree_sitter_lua_external_scanner_destroy(void *payload)
-{
-  free(payload);
-}
-
 enum StartedToken
 {
   SHORT_COMMENT = 1,
@@ -58,9 +42,25 @@ enum StartedToken
   LONG_STRING,
 };
 
+struct ScannerState
+{
+  enum StartedToken started;
+  unsigned int depth;
+};
+
+void *tree_sitter_lua_external_scanner_create()
+{
+  return malloc(sizeof(struct ScannerState));
+}
+
+void tree_sitter_lua_external_scanner_destroy(void *payload)
+{
+  free(payload);
+}
+
 unsigned int tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer)
 {
-  struct ScannerState * state = (struct ScannerState *)payload;
+  struct ScannerState *state = payload;
   buffer[0] = state->started;
   buffer[1] = state->depth;
   return 2;
@@ -70,7 +70,7 @@ void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buf
 {
   if (length == 2)
   {
-    struct ScannerState * state = (struct ScannerState *)payload;
+    struct ScannerState *state = payload;
     state->started = buffer[0];
     state->depth = buffer[1];
   }
@@ -87,9 +87,8 @@ static unsigned int get_depth(TSLexer *lexer)
   return current_depth;
 }
 
-static bool scan_depth(TSLexer *lexer, struct ScannerState * state)
+static bool scan_depth(TSLexer *lexer, unsigned int remaining_depth)
 {
-  unsigned int remaining_depth = state->depth;
   while (remaining_depth > 0 && consume_if(lexer, '='))
   {
     remaining_depth -= 1;
@@ -100,7 +99,7 @@ static bool scan_depth(TSLexer *lexer, struct ScannerState * state)
 
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols)
 {
-  struct ScannerState * state = (struct ScannerState *)payload;
+  struct ScannerState *state = payload;
   switch (state->started)
   {
   case SHORT_COMMENT:
@@ -178,7 +177,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       // try to match the long comment's/string's end (]=*])
       if (consume_if(lexer, ']'))
       {
-        if (scan_depth(lexer, state) && consume_if(lexer, ']'))
+        if (scan_depth(lexer, state->depth) && consume_if(lexer, ']'))
         {
           state->started = 0;
           state->depth = 0;
@@ -210,7 +209,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
         lexer->mark_end(lexer);
         if (consume_if(lexer, ']'))
         {
-          if (scan_depth(lexer, state))
+          if (scan_depth(lexer, state->depth))
           {
             if (consume_if(lexer, ']'))
             {
