@@ -5,6 +5,7 @@ package-lock.json
 Cargo.lock
 
 /build
+/.build
 /target
 *.obj
 *.exp
