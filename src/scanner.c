@@ -35,7 +35,8 @@ const char DQ_STRING_DELIMITER = '"';
 
 enum StartedToken
 {
-  SHORT_COMMENT = 1,
+  NONE,
+  SHORT_COMMENT,
   SHORT_SQ_STRING,
   SHORT_DQ_STRING,
   LONG_COMMENT,
@@ -68,11 +69,14 @@ unsigned int tree_sitter_lua_external_scanner_serialize(void *payload, char *buf
 
 void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buffer, unsigned int length)
 {
+  struct ScannerState *state = payload;
   if (length == 2)
   {
-    struct ScannerState *state = payload;
     state->started = buffer[0];
     state->depth = buffer[1];
+  } else {
+    state->started = NONE;
+    state->depth = 0;
   }
 }
 
@@ -109,7 +113,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
     {
       if (valid_symbols[COMMENT_END])
       {
-        state->started = 0;
+        state->started = NONE;
 
         lexer->result_symbol = COMMENT_END;
         return true;
@@ -140,7 +144,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
     {
       if (valid_symbols[STRING_END])
       {
-        state->started = 0;
+        state->started = NONE;
 
         lexer->result_symbol = STRING_END;
         return true;
@@ -179,7 +183,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       {
         if (scan_depth(lexer, state->depth) && consume_if(lexer, ']'))
         {
-          state->started = 0;
+          state->started = NONE;
           state->depth = 0;
 
           lexer->result_symbol = is_inside_a_comment ? COMMENT_END : STRING_END;
